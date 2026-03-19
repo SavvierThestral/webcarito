@@ -151,15 +151,15 @@
     }
     .hero-h1 {
       font-family: dreamboat, sans-serif;
-      font-size: clamp(3.5rem, 6vw, 6rem);
-      line-height: 0.95; letter-spacing: -0.01em;
+      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+      line-height: 1.05; letter-spacing: 0.01em;
       color: #ffffff; margin-bottom: 1.5rem;
     }
     .hero-h1 em {
       font-style: normal; color: #ffc4d8;
     }
     .hero-sub {
-      font-size: 1rem; font-weight: 300; line-height: 1.75;
+      font-size: 1.1rem; font-weight: 400; line-height: 1.7;
       color: rgba(255,255,255,0.72); max-width: 420px; margin-bottom: 2.5rem;
     }
     .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
@@ -243,13 +243,13 @@
     .section-h2 {
       font-family: 'Donovan Display', sans-serif;
       font-weight: 500;
-      font-size: clamp(2.5rem, 4vw, 4rem);
-      letter-spacing: -0.01em; line-height: 0.95; color: #1a1a1a;
+      font-size: clamp(3rem, 4.5vw, 4.8rem);
+      letter-spacing: 0.03em; line-height: 1.1; color: #1a1a1a;
       margin-bottom: 1.25rem;
     }
     .section-h2 em { font-style: normal; color: #044f97; }
     .section-lead {
-      font-size: 1rem; font-weight: 300; line-height: 1.75;
+      font-size: 1.1rem; font-weight: 400; line-height: 1.7;
       color: #555; max-width: 520px;
     }
 
@@ -281,12 +281,12 @@
       transition: background 0.25s ease, color 0.25s ease;
     }
     .sc-title {
-      font-family: 'Donovan Display', sans-serif; font-weight: 500; font-size: 1.5rem;
-      letter-spacing: 0.02em; color: #1a1a1a; margin-bottom: 0.75rem;
+      font-family: 'Donovan Display', sans-serif; font-weight: 500; font-size: 1.9rem;
+      letter-spacing: 0.04em; color: #1a1a1a; margin-bottom: 0.75rem;
       transition: color 0.25s ease;
     }
     .sc-text {
-      font-size: 0.875rem; line-height: 1.7; color: #666;
+      font-size: 1rem; line-height: 1.7; color: #666;
       transition: color 0.25s ease;
     }
 
@@ -339,10 +339,10 @@
       box-shadow: 0 4px 12px rgba(4,79,151,0.35);
     }
     .benefit-title {
-      font-family: dreamboat, sans-serif; font-size: 1.15rem;
-      letter-spacing: 0.04em; color: #1a1a1a; margin-bottom: 0.3rem;
+      font-family: dreamboat, sans-serif; font-size: 1.35rem;
+      letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.3rem;
     }
-    .benefit-text { font-size: 0.85rem; line-height: 1.7; color: #666; }
+    .benefit-text { font-size: 1rem; line-height: 1.7; color: #666; }
 
     /* ── Process ── */
     #proceso { background: #f5f4f2; }
@@ -365,10 +365,10 @@
       box-shadow: 0 0 0 6px #f5f4f2, 0 4px 20px rgba(4,79,151,0.4);
     }
     .step-title {
-      font-family: dreamboat, sans-serif; font-size: 1.2rem;
-      letter-spacing: 0.04em; color: #1a1a1a; margin-bottom: 0.5rem;
+      font-family: dreamboat, sans-serif; font-size: 1.35rem;
+      letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.5rem;
     }
-    .step-text { font-size: 0.82rem; line-height: 1.65; color: #777; }
+    .step-text { font-size: 0.95rem; line-height: 1.7; color: #777; }
 
     /* ── Projects ── */
     #proyectos { background: #ffffff; }
@@ -428,12 +428,12 @@
     .cta-h2 {
       font-family: 'Donovan Display', sans-serif;
       font-weight: 500;
-      font-size: clamp(2.2rem, 3.5vw, 3.5rem);
-      line-height: 0.95; color: #ffffff; letter-spacing: -0.01em;
+      font-size: clamp(2.6rem, 3.8vw, 4rem);
+      line-height: 1.1; color: #ffffff; letter-spacing: 0.03em;
     }
     .cta-h2 em { font-style: normal; color: #ffc4d8; }
     .cta-sub {
-      font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.65);
+      font-size: 1.05rem; font-weight: 400; color: rgba(255,255,255,0.65);
       line-height: 1.7; margin-top: 0.75rem;
     }
     .btn-white {
@@ -588,6 +588,12 @@
       .projects-grid { grid-template-columns: 1fr; }
       .project-card:first-child { grid-column: auto; }
       .form-row { grid-template-columns: 1fr; }
+
+      .section-h2 { font-size: 2.4rem; letter-spacing: 0.02em; line-height: 1.15; }
+      .sc-title   { font-size: 1.65rem; }
+      .cta-h2     { font-size: 2.2rem; }
+      .hero-sub, .section-lead, .cta-sub { font-size: 1rem; }
+      .sc-text, .benefit-text, .step-text { font-size: 0.95rem; }
     }
     @media (max-width: 480px) {
       .stats-inner { grid-template-columns: 1fr; }
