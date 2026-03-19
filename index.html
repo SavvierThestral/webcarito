@@ -21,7 +21,7 @@
             offwhite: '#f5f4f2',
           },
           fontFamily: {
-            display: ['dreamboat', 'sans-serif'],
+            display: ['Sugo Pro Display', 'sans-serif'],
             body: ['coolvetica', 'Helvetica Neue', 'Helvetica', 'sans-serif'],
           },
           letterSpacing: {
@@ -34,6 +34,27 @@
   </script>
 
   <style>
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype');
+      font-weight: 400; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
+      font-weight: 300; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
+      font-weight: 700; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Italic-trial.ttf') format('truetype');
+      font-weight: 400; font-style: italic;
+    }
+
     @font-face {
       font-family: 'Donovan Display';
       src: url('Donovan.Display/Donovan Display Skinny Light.ttf') format('truetype');
@@ -161,7 +182,7 @@
       background: #ffc4d8; display: block;
     }
     .hero-h1 {
-      font-family: dreamboat, sans-serif;
+      font-family: 'Sugo Pro Display', sans-serif;
       font-size: clamp(2.8rem, 5.5vw, 5.5rem);
       line-height: 1.05; letter-spacing: 0.01em;
       color: #ffffff; margin-bottom: 1.5rem;
@@ -213,7 +234,7 @@
     .hero-subtitle {
       position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
       background: #ffc4d8; color: #044f97;
-      font-family: 'Beautifully Delicious', cursive; font-size: 1.6rem; font-weight: 400;
+      font-family: 'Beautifully Delicious', cursive; font-size: 2.2rem; font-weight: 400;
       letter-spacing: 0.01em; text-transform: none;
       padding: 0.4rem 1.6rem; border-radius: 2px; white-space: nowrap;
       box-shadow: 0 4px 16px rgba(255,196,216,0.4);
@@ -351,7 +372,7 @@
       box-shadow: 0 4px 12px rgba(4,79,151,0.35);
     }
     .benefit-title {
-      font-family: dreamboat, sans-serif; font-size: 1.35rem;
+      font-family: 'Sugo Pro Display', sans-serif; font-size: 1.35rem;
       letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.3rem;
     }
     .benefit-text { font-size: 1rem; line-height: 1.7; color: #666; }
@@ -377,7 +398,7 @@
       box-shadow: 0 0 0 6px #f5f4f2, 0 4px 20px rgba(4,79,151,0.4);
     }
     .step-title {
-      font-family: dreamboat, sans-serif; font-size: 1.35rem;
+      font-family: 'Sugo Pro Display', sans-serif; font-size: 1.35rem;
       letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.5rem;
     }
     .step-text { font-size: 0.95rem; line-height: 1.7; color: #777; }
@@ -639,7 +660,7 @@
           Construimos<br>
           con <em>Acero.</em><br>
           Duramos<br>
-          para Siempre.
+          para siempre.
         </h1>
         <p class="hero-sub">
           Diseño, fabricación e instalación de estructuras metálicas
@@ -662,7 +683,7 @@
   <section class="section" id="servicios">
     <div class="section-inner">
       <p class="section-tag" data-reveal>Lo que hacemos</p>
-      <h2 class="section-h2" data-reveal data-delay="1">Nuestros <em>Servicios</em></h2>
+      <h2 class="section-h2" data-reveal data-delay="1">Nuestros <em>servicios</em></h2>
       <p class="section-lead" data-reveal data-delay="2">
         Soluciones integrales en steel framing para cada etapa de tu construcción,
         desde el diseño hasta la instalación final.
@@ -680,7 +701,7 @@
 <div class="service-card" data-reveal data-delay="3">
           <span class="sc-num">03</span>
           <div class="sc-icon">📐</div>
-          <h3 class="sc-title">Diseño y Cálculo</h3>
+          <h3 class="sc-title">Diseño y cálculo</h3>
           <p class="sc-text">
             Ingeniería estructural completa: cálculo, memoria descriptiva y planos
             aprobados. Cumplimiento de normativas vigentes garantizado.
@@ -689,7 +710,7 @@
         <div class="service-card" data-reveal data-delay="4">
           <span class="sc-num">04</span>
           <div class="sc-icon">🔩</div>
-          <h3 class="sc-title">Fabricación a Medida</h3>
+          <h3 class="sc-title">Fabricación a medida</h3>
           <p class="sc-text">
             Fabricamos cada módulo luego de un riguroso estudio del lugar de emplazamiento para que cada proyecto sea único, además de personalizar materialidades de terminaciones y colores.
           </p>
@@ -697,7 +718,7 @@
         <div class="service-card" data-reveal data-delay="5">
           <span class="sc-num">05</span>
           <div class="sc-icon">🔧</div>
-          <h3 class="sc-title">Instalación y Montaje</h3>
+          <h3 class="sc-title">Instalación y montaje</h3>
           <p class="sc-text">
             Equipo certificado en armado de estructuras metálicas. Montaje
             seguro, rápido y supervisado en obra por nuestros capataces especializados.
@@ -739,21 +760,21 @@
             <div class="benefit" data-reveal data-delay="1">
               <div class="benefit-icon">⚡</div>
               <div>
-                <div class="benefit-title">Velocidad de Construcción</div>
+                <div class="benefit-title">Velocidad de construcción</div>
                 <p class="benefit-text">Los perfiles llegan prefabricados a obra. Reducimos hasta un 40% los tiempos frente a construcción tradicional con hormigón y ladrillos.</p>
               </div>
             </div>
             <div class="benefit" data-reveal data-delay="2">
               <div class="benefit-icon">🛡️</div>
               <div>
-                <div class="benefit-title">Durabilidad Superior</div>
+                <div class="benefit-title">Durabilidad superior</div>
                 <p class="benefit-text">Acero galvanizado con protección anticorrosión que garantiza más de 50 años de vida estructural, resistente a sismos, viento e insectos.</p>
               </div>
             </div>
             <div class="benefit" data-reveal data-delay="3">
               <div class="benefit-icon">🌿</div>
               <div>
-                <div class="benefit-title">Construcción Sustentable</div>
+                <div class="benefit-title">Construcción sustentable</div>
                 <p class="benefit-text">El acero es 100% reciclable. Menor generación de escombros en obra y mayor eficiencia energética en el edificio terminado.</p>
               </div>
             </div>
@@ -767,7 +788,7 @@
   <section class="section" id="proceso">
     <div class="section-inner">
       <p class="section-tag" data-reveal>Cómo trabajamos</p>
-      <h2 class="section-h2" data-reveal data-delay="1">Proceso de <em>Trabajo</em></h2>
+      <h2 class="section-h2" data-reveal data-delay="1">Proceso de <em>trabajo</em></h2>
       <p class="section-lead" data-reveal data-delay="2">
         Un flujo claro y transparente, con comunicación en cada etapa para
         que siempre sepas el estado de tu proyecto.
@@ -776,12 +797,12 @@
       <div class="process-steps">
         <div class="step" data-reveal data-delay="1">
           <div class="step-num">01</div>
-          <div class="step-title">Consulta Inicial</div>
+          <div class="step-title">Consulta inicial</div>
           <p class="step-text">Reunión técnica para entender tu proyecto, terreno y necesidades. Sin costo, sin compromiso.</p>
         </div>
         <div class="step" data-reveal data-delay="2">
           <div class="step-num">02</div>
-          <div class="step-title">Diseño y Presupuesto</div>
+          <div class="step-title">Diseño y presupuesto</div>
           <p class="step-text">Elaboramos planos estructurales y una cotización detallada con todos los materiales y mano de obra.</p>
         </div>
         <div class="step" data-reveal data-delay="3">
@@ -791,7 +812,7 @@
         </div>
         <div class="step" data-reveal data-delay="4">
           <div class="step-num">04</div>
-          <div class="step-title">Instalación y Entrega</div>
+          <div class="step-title">Instalación y entrega</div>
           <p class="step-text">Montaje en obra con nuestro equipo certificado. Entrega con inspección final y documentación completa.</p>
         </div>
       </div>
@@ -802,7 +823,7 @@
   <section class="section" id="proyectos">
     <div class="section-inner">
       <p class="section-tag" data-reveal>Nuestro portafolio</p>
-      <h2 class="section-h2" data-reveal data-delay="1">Proyectos <em>Destacados</em></h2>
+      <h2 class="section-h2" data-reveal data-delay="1">Proyectos <em>destacados</em></h2>
       <p class="section-lead" data-reveal data-delay="2">
         Cada obra es un testimonio de nuestra calidad constructiva y compromiso con el cliente.
       </p>
@@ -867,7 +888,7 @@
   <section class="section" id="contacto">
     <div class="section-inner">
       <p class="section-tag" data-reveal>Hablemos</p>
-      <h2 class="section-h2" data-reveal data-delay="1">Ponete en <em>Contacto</em></h2>
+      <h2 class="section-h2" data-reveal data-delay="1">Ponete en <em>contacto</em></h2>
 
       <div class="contact-layout">
         <div class="contact-info" data-reveal="left">
