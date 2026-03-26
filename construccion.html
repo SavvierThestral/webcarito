@@ -49,6 +49,25 @@
       pointer-events: none;
     }
 
+    /* Logo watermark */
+    .logo-watermark {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-watermark img {
+      width: min(70vw, 70vh);
+      height: min(70vw, 70vh);
+      object-fit: contain;
+      opacity: 0.06;
+      filter: brightness(2) saturate(0);
+      mix-blend-mode: screen;
+    }
+
     /* Grain texture */
     .grain {
       position: fixed;
@@ -211,6 +230,9 @@
   <!-- Blueprint background layers -->
   <div class="blueprint-bg"></div>
   <div class="glow"></div>
+  <div class="logo-watermark">
+    <img src="AC-TUCASA-01 a.jpg" alt="" />
+  </div>
   <div class="grain"></div>
   <div class="frame-border"></div>
 
