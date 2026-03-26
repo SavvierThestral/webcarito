@@ -49,21 +49,23 @@
       pointer-events: none;
     }
 
-    /* Logo top-left */
+    /* Logo centrado fondo */
     .logo-corner {
       position: fixed;
-      top: 2.5rem;
-      left: 2.5rem;
-      z-index: 20;
+      inset: 0;
+      z-index: 1;
       pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .logo-corner img {
-      width: 120px;
-      height: 120px;
+      width: min(45vw, 45vh);
+      height: min(45vw, 45vh);
       object-fit: contain;
-      opacity: 0.75;
-      filter: brightness(1.15);
-      border-radius: 8px;
+      opacity: 0.12;
+      filter: brightness(1.4) saturate(0.3);
+      mix-blend-mode: screen;
     }
 
     /* Grain texture */
