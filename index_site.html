@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AC Tu Casa — Estructuras de Acero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/feh7sid.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand:   '#044f97',
+            'brand-dark': '#033a70',
+            'brand-light': '#1a6bbf',
+            lavender: '#b0a3b6',
+            blush:   '#ffc4d8',
+            steel:   '#A0A5A7',
+            offwhite: '#f5f4f2',
+          },
+          fontFamily: {
+            display: ['Sugo Pro Display', 'sans-serif'],
+            body: ['coolvetica', 'Helvetica Neue', 'Helvetica', 'sans-serif'],
+          },
+          letterSpacing: {
+            tight2: '-0.03em',
+            wide2: '0.08em',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype');
+      font-weight: 400; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
+      font-weight: 300; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
+      font-weight: 700; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Sugo Pro Display';
+      src: url('Sugo pro display/Sugo-Pro-Display-Italic-trial.ttf') format('truetype');
+      font-weight: 400; font-style: italic;
+    }
+
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Light.ttf') format('truetype');
+      font-weight: 300; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Light Italic.ttf') format('truetype');
+      font-weight: 300; font-style: italic;
+    }
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Medium.ttf') format('truetype');
+      font-weight: 500; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Medium Italic.ttf') format('truetype');
+      font-weight: 500; font-style: italic;
+    }
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Bold.ttf') format('truetype');
+      font-weight: 700; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Donovan Display';
+      src: url('Donovan.Display/Donovan Display Skinny Bold Italic.ttf') format('truetype');
+      font-weight: 700; font-style: italic;
+    }
+
+    @font-face {
+      font-family: 'Beautifully Delicious';
+      src: url('Beautiful delicious Font/BDScript-Regular.otf') format('opentype');
+      font-weight: 400; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Beautifully Delicious';
+      src: url('Beautiful delicious Font/BDScript-Bold.otf') format('opentype');
+      font-weight: 700; font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: coolvetica, Helvetica, sans-serif; background: #f5f4f2; color: #1a1a1a; }
+
+    /* ── Grain texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(4,79,151,0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 72px;
+    }
+    .nav-logo { height: 64px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: coolvetica, sans-serif; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: #ffffff; }
+    .nav-cta {
+      background: #ffffff; color: #044f97;
+      font-family: coolvetica, sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.6rem 1.4rem; border-radius: 3px; text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .nav-cta:hover { background: #ffc4d8; transform: translateY(-1px); }
+    .nav-cta:active { transform: translateY(0); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      background-color: #044f97;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(1,40,90,0.85) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(176,163,182,0.18) 0%, transparent 60%);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1280px; margin: 0 auto; padding: 0 2rem;
+      padding-top: 72px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+      min-height: 100vh;
+    }
+    .hero-text {}
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.35rem 0.9rem; border-radius: 2px; margin-bottom: 1.5rem;
+    }
+    .hero-tag span {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #ffc4d8;
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #ffc4d8; display: block;
+    }
+    .hero-h1 {
+      font-family: 'Sugo Pro Display', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+      line-height: 1.05; letter-spacing: 0.01em;
+      color: #ffffff; margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .hero-h1 em {
+      font-style: normal; color: #ffc4d8;
+    }
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 400; line-height: 1.7;
+      color: rgba(255,255,255,0.72); max-width: 420px; margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #ffffff; color: #044f97;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 2rem; border-radius: 3px; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25), 0 1px 4px rgba(0,0,0,0.15);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #ffc4d8; box-shadow: 0 8px 32px rgba(0,0,0,0.3); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-ghost {
+      color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.06em; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s ease, gap 0.2s ease;
+    }
+    .btn-ghost::after { content: '→'; }
+    .btn-ghost:hover { color: #ffffff; gap: 0.8rem; }
+
+    .hero-logo-wrap {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-logo-img {
+      width: min(420px, 90%);
+      border-radius: 8px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.12),
+        0 24px 80px rgba(0,0,0,0.45),
+        0 8px 24px rgba(0,0,0,0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-subtitle {
+      position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+      background: #ffc4d8; color: #044f97;
+      font-family: 'Beautifully Delicious', cursive; font-size: 2.7rem; font-weight: 400;
+      letter-spacing: 0.01em; text-transform: none;
+      padding: 0.4rem 1.6rem; border-radius: 2px; white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(255,196,216,0.4);
+      line-height: 1.3;
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: #033a70;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .stats-inner {
+      max-width: 1280px; margin: 0 auto; padding: 2rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    .stat { text-align: center; padding: 1rem; }
+    .stat-num {
+      font-family: coolvetica, sans-serif; font-size: 2.8rem;
+      color: #ffffff; letter-spacing: 0.02em; display: block;
+    }
+    .stat-label {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      display: block; margin-top: 0.2rem;
+    }
+    .stat-accent { color: #ffc4d8; }
+
+    /* ── Section commons ── */
+    .section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-tag {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #044f97; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-tag::before {
+      content: ''; display: block; width: 24px; height: 2px; background: #044f97;
+    }
+    .section-h2 {
+      font-family: 'Sugo Pro Display', sans-serif;
+      font-weight: 400;
+      font-size: clamp(3rem, 4.5vw, 4.8rem);
+      letter-spacing: 0.03em; line-height: 1.1; color: #1a1a1a;
+      margin-bottom: 1.25rem;
+    }
+    .section-h2 em { font-style: normal; color: #044f97; }
+    .section-lead {
+      font-size: 1.1rem; font-weight: 400; line-height: 1.7;
+      color: #555; max-width: 520px;
+    }
+
+    /* ── Services ── */
+    #servicios { background: #f5f4f2; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+      background: #e0ddd8; border: 1.5px solid #e0ddd8; border-radius: 8px;
+      overflow: hidden; margin-top: 3.5rem;
+    }
+    .service-card {
+      background: #ffffff; padding: 2.5rem 2rem; position: relative;
+      transition: background 0.25s ease;
+    }
+    .service-card:hover { background: #044f97; }
+    .service-card:hover .sc-num,
+    .service-card:hover .sc-title,
+    .service-card:hover .sc-text { color: #ffffff; }
+    .service-card:hover .sc-icon { background: rgba(255,255,255,0.1); color: #ffc4d8; }
+    .sc-num {
+      font-family: coolvetica, sans-serif; font-size: 1rem;
+      color: #b0a3b6; letter-spacing: 0.1em;
+      transition: color 0.25s ease;
+    }
+    .sc-icon {
+      width: 52px; height: 52px; background: #f0eff0;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      margin: 1rem 0; font-size: 1.4rem;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .sc-title {
+      font-family: 'Sugo Pro Display', sans-serif; font-weight: 400; font-size: 1.9rem;
+      letter-spacing: 0.04em; color: #1a1a1a; margin-bottom: 0.75rem;
+      transition: color 0.25s ease;
+    }
+    .sc-text {
+      font-size: 1rem; line-height: 1.7; color: #666;
+      transition: color 0.25s ease;
+    }
+
+    /* ── Why Steel ── */
+    #ventajas { background: #ffffff; }
+    .why-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+      margin-top: 3rem;
+    }
+    .why-image {
+      position: relative;
+    }
+    .why-img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px;
+      display: block;
+    }
+    .why-img-overlay {
+      position: absolute; inset: 0; border-radius: 6px;
+      background: linear-gradient(to top, rgba(4,79,151,0.6) 0%, transparent 50%);
+    }
+    .why-badge {
+      position: absolute; bottom: 1.5rem; left: 1.5rem;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+      padding: 0.75rem 1.25rem; border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .why-badge-num {
+      font-family: coolvetica, sans-serif; font-size: 2rem;
+      color: #044f97; display: block; line-height: 1;
+    }
+    .why-badge-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #888;
+    }
+    .benefits-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .benefit {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.25rem; border-radius: 6px; border: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .benefit:hover {
+      border-color: rgba(4,79,151,0.15);
+      box-shadow: 0 4px 24px rgba(4,79,151,0.07);
+    }
+    .benefit-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: linear-gradient(135deg, #044f97, #1a6bbf);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: #fff;
+      box-shadow: 0 4px 12px rgba(4,79,151,0.35);
+    }
+    .benefit-title {
+      font-family: 'Sugo Pro Display', sans-serif; font-size: 1.35rem;
+      letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.3rem;
+    }
+    .benefit-text { font-size: 1rem; line-height: 1.7; color: #666; }
+
+    /* ── Process ── */
+    #proceso { background: #f5f4f2; }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      margin-top: 3.5rem; position: relative;
+    }
+    .process-steps::before {
+      content: ''; position: absolute; top: 36px; left: calc(12.5% + 18px); right: calc(12.5% + 18px);
+      height: 2px; background: linear-gradient(90deg, #044f97, #b0a3b6);
+      z-index: 0;
+    }
+    .step { text-align: center; padding: 0 1rem; position: relative; z-index: 1; }
+    .step-num {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: #044f97; color: #ffffff;
+      font-family: coolvetica, sans-serif; font-size: 1.6rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 0 6px #f5f4f2, 0 4px 20px rgba(4,79,151,0.4);
+    }
+    .step-title {
+      font-family: 'Sugo Pro Display', sans-serif; font-size: 1.35rem;
+      letter-spacing: 0.01em; color: #1a1a1a; margin-bottom: 0.5rem;
+    }
+    .step-text { font-size: 0.95rem; line-height: 1.7; color: #777; }
+
+    /* ── Projects ── */
+    #proyectos { background: #ffffff; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem; margin-top: 3.5rem;
+    }
+    .project-card {
+      position: relative; overflow: hidden; border-radius: 6px;
+      background: #e0ddd8;
+    }
+    .project-card:first-child {
+      grid-column: span 2; grid-row: span 1;
+    }
+    .project-img {
+      width: 100%; height: 100%; min-height: 280px;
+      object-fit: cover; display: block;
+      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .project-card:hover .project-img { transform: scale(1.04); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(3,58,112,0.85) 0%, rgba(3,58,112,0.1) 50%, transparent 100%);
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+    .project-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem; transform: translateY(8px);
+      opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .project-card:hover .project-info { opacity: 1; transform: translateY(0); }
+    .project-type {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #ffc4d8; margin-bottom: 0.35rem;
+    }
+    .project-name {
+      font-family: coolvetica, sans-serif; font-size: 1.4rem;
+      letter-spacing: 0.03em; color: #ffffff;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-section {
+      background: #044f97;
+      background-image:
+        radial-gradient(ellipse 60% 100% at 90% 50%, rgba(1,30,70,0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 80% at 5% 50%, rgba(176,163,182,0.15) 0%, transparent 60%);
+      padding: 6rem 2rem;
+    }
+    .cta-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .cta-h2 {
+      font-family: 'Sugo Pro Display', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.6rem, 3.8vw, 4rem);
+      line-height: 1.1; color: #ffffff; letter-spacing: 0.03em;
+    }
+    .cta-h2 em { font-style: normal; color: #ffc4d8; }
+    .cta-sub {
+      font-size: 1.05rem; font-weight: 400; color: rgba(255,255,255,0.65);
+      line-height: 1.7; margin-top: 0.75rem;
+    }
+    .btn-white {
+      background: #ffffff; color: #044f97;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1.1rem 2.5rem; border-radius: 3px; text-decoration: none;
+      white-space: nowrap; flex-shrink: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      display: inline-block;
+    }
+    .btn-white:hover { background: #ffc4d8; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .btn-white:active { transform: translateY(0); }
+    .btn-white:focus-visible { outline: 3px solid #ffc4d8; outline-offset: 3px; }
+
+    /* ── Contact ── */
+    #contacto { background: #f5f4f2; }
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem;
+      align-items: start; margin-top: 3rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; padding-top: 1rem; }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .contact-ico {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: #044f97; color: #fff; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .contact-label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #b0a3b6; margin-bottom: 0.2rem;
+    }
+    .contact-value { font-size: 0.95rem; font-weight: 500; color: #1a1a1a; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #666;
+    }
+    .form-input, .form-select, .form-textarea {
+      padding: 0.875rem 1rem; border: 1.5px solid #ddd;
+      border-radius: 4px; font-family: coolvetica, sans-serif; font-size: 0.875rem;
+      color: #1a1a1a; background: #ffffff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none; width: 100%;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: #044f97;
+      box-shadow: 0 0 0 3px rgba(4,79,151,0.12);
+    }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      background: #044f97; color: #ffffff;
+      font-family: coolvetica, sans-serif; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1.1rem 2.5rem; border-radius: 3px; border: none; cursor: pointer;
+      width: 100%; align-self: flex-start;
+      box-shadow: 0 4px 16px rgba(4,79,151,0.4);
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .form-submit:hover { background: #033a70; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(4,79,151,0.45); }
+    .form-submit:active { transform: translateY(0); }
+    .form-submit:focus-visible { outline: 3px solid #ffc4d8; outline-offset: 3px; }
+
+    /* ── Footer ── */
+    footer {
+      background: #033a70;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 3rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-logo { height: 52px; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-links a:hover { color: #ffffff; }
+    .footer-copy {
+      font-size: 0.72rem; color: rgba(255,255,255,0.3);
+      width: 100%; text-align: center; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06); margin-top: 1rem;
+    }
+
+    /* ── Scroll Animations ── */
+    html { scroll-behavior: smooth; }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    [data-reveal="left"] {
+      transform: translateX(-40px);
+    }
+    [data-reveal="right"] {
+      transform: translateX(40px);
+    }
+    [data-reveal="scale"] {
+      transform: translateY(20px) scale(0.96);
+    }
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Stagger delays */
+    [data-delay="1"] { transition-delay: 0.08s; }
+    [data-delay="2"] { transition-delay: 0.16s; }
+    [data-delay="3"] { transition-delay: 0.24s; }
+    [data-delay="4"] { transition-delay: 0.32s; }
+    [data-delay="5"] { transition-delay: 0.40s; }
+    [data-delay="6"] { transition-delay: 0.48s; }
+
+    /* Hero entrance */
+    .hero-tag   { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s forwards; }
+    .hero-h1    { opacity: 0; transform: translateY(24px); animation: heroIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.38s forwards; }
+    .hero-sub   { opacity: 0; transform: translateY(20px); animation: heroIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.54s forwards; }
+    .hero-actions { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.68s forwards; }
+    .hero-logo-wrap { opacity: 0; transform: translateX(32px); animation: heroIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s forwards; }
+    @keyframes heroIn {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* Nav scroll effect */
+    nav { transition: background 0.3s ease, box-shadow 0.3s ease; }
+    nav.scrolled {
+      background: rgba(4,79,151,1);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; padding-top: 100px; padding-bottom: 4rem; }
+      .hero-logo-wrap { order: -1; }
+      .hero-actions { justify-content: center; }
+      .hero-sub { margin: 0 auto 2.5rem; }
+      .why-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .process-steps::before { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card:first-child { grid-column: auto; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .section-h2 { font-size: 2.4rem; letter-spacing: 0.02em; line-height: 1.15; }
+      .sc-title   { font-size: 1.65rem; }
+      .cta-h2     { font-size: 2.2rem; }
+      .hero-sub, .section-lead, .cta-sub { font-size: 1rem; }
+      .sc-text, .benefit-text, .step-text { font-size: 0.95rem; }
+    }
+    @media (max-width: 480px) {
+      .stats-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════ NAV ════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <img src="./AC-TUCASA-01 a.jpg" alt="AC Tu Casa" class="nav-logo" />
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#ventajas">Ventajas</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="nav-cta">Cotizar</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════ HERO ════════════════════════ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-tag"><span>Estructuras de Acero</span></div>
+        <h1 class="hero-h1">
+          Construimos<br>
+          con <em>Acero.</em><br>
+          Duramos<br>
+          para siempre.
+        </h1>
+        <p class="hero-sub">
+          Diseño, fabricación e instalación de estructuras metálicas
+          de alta calidad para vivienda y proyectos comerciales.
+          Precisión de ingeniería, estética superior.
+        </p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn-primary">Solicitar Cotización</a>
+          <a href="#proyectos" class="btn-ghost">Ver Proyectos</a>
+        </div>
+      </div>
+      <div class="hero-logo-wrap">
+        <img src="./AC-TUCASA-01 a.jpg" alt="AC Tu Casa Logo" class="hero-logo-img" />
+        <div class="hero-subtitle">Construimos Tus Sueños</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ SERVICIOS ════════════════════════ -->
+  <section class="section" id="servicios">
+    <div class="section-inner">
+      <p class="section-tag" data-reveal>Lo que hacemos</p>
+      <h2 class="section-h2" data-reveal data-delay="1">Nuestros <em>servicios</em></h2>
+      <p class="section-lead" data-reveal data-delay="2">
+        Soluciones integrales en steel framing para cada etapa de tu construcción,
+        desde el diseño hasta la instalación final.
+      </p>
+
+      <div class="services-grid">
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="sc-num">01</span>
+          <div class="sc-icon">🏗️</div>
+          <h3 class="sc-title">Steel Framing</h3>
+          <p class="sc-text">
+            Construcción de módulos residenciales y comerciales, contemplando ampliaciones a futuro con estructura metalica. Mayor velocidad, Precision y durabilidad que la mamposteria tradicional.
+          </p>
+        </div>
+<div class="service-card" data-reveal data-delay="3">
+          <span class="sc-num">03</span>
+          <div class="sc-icon">📐</div>
+          <h3 class="sc-title">Diseño y cálculo</h3>
+          <p class="sc-text">
+            Ingeniería estructural completa: cálculo, memoria descriptiva y planos
+            aprobados. Cumplimiento de normativas vigentes garantizado.
+          </p>
+        </div>
+        <div class="service-card" data-reveal data-delay="4">
+          <span class="sc-num">04</span>
+          <div class="sc-icon">🔩</div>
+          <h3 class="sc-title">Fabricación a medida</h3>
+          <p class="sc-text">
+            Fabricamos cada módulo luego de un riguroso estudio del lugar de emplazamiento para que cada proyecto sea único, además de personalizar materialidades de terminaciones y colores.
+          </p>
+        </div>
+        <div class="service-card" data-reveal data-delay="5">
+          <span class="sc-num">05</span>
+          <div class="sc-icon">🔧</div>
+          <h3 class="sc-title">Instalación y montaje</h3>
+          <p class="sc-text">
+            Equipo certificado en armado de estructuras metálicas. Montaje
+            seguro, rápido y supervisado en obra por nuestros capataces especializados.
+          </p>
+        </div>
+        <div class="service-card" data-reveal data-delay="6">
+          <span class="sc-num">06</span>
+          <div class="sc-icon">🏠</div>
+          <h3 class="sc-title">Ampliaciones</h3>
+          <p class="sc-text">
+            Integración de steel framing en estructuras existentes para ampliaciones y
+            segundo piso.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ VENTAJAS ════════════════════════ -->
+  <section class="section" id="ventajas">
+    <div class="section-inner">
+      <div class="why-layout">
+        <div class="why-image" data-reveal="left">
+          <img
+            src="https://placehold.co/600x450/044f97/ffffff?text=Estructura+de+Acero"
+            alt="Steel framing construction"
+            class="why-img"
+          />
+          <div class="why-img-overlay"></div>
+        </div>
+        <div data-reveal="right">
+          <p class="section-tag">Por qué elegirnos</p>
+          <h2 class="section-h2">El <em>Acero</em> que<br>transforma obras</h2>
+          <p class="section-lead">
+            El steel framing no es solo construir más rápido — es construir mejor.
+            Precisión milimétrica, menor desperdicio y décadas de vida útil.
+          </p>
+          <div class="benefits-list">
+            <div class="benefit" data-reveal data-delay="1">
+              <div class="benefit-icon">⚡</div>
+              <div>
+                <div class="benefit-title">Velocidad de construcción</div>
+                <p class="benefit-text">Los perfiles llegan prefabricados a obra. Reducimos hasta un 40% los tiempos frente a construcción tradicional con hormigón y ladrillos.</p>
+              </div>
+            </div>
+            <div class="benefit" data-reveal data-delay="2">
+              <div class="benefit-icon">🛡️</div>
+              <div>
+                <div class="benefit-title">Durabilidad superior</div>
+                <p class="benefit-text">Acero galvanizado con protección anticorrosión que garantiza más de 50 años de vida estructural, resistente a sismos, viento e insectos.</p>
+              </div>
+            </div>
+            <div class="benefit" data-reveal data-delay="3">
+              <div class="benefit-icon">🌿</div>
+              <div>
+                <div class="benefit-title">Construcción sustentable</div>
+                <p class="benefit-text">El acero es 100% reciclable. Menor generación de escombros en obra y mayor eficiencia energética en el edificio terminado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ PROCESO ════════════════════════ -->
+  <section class="section" id="proceso">
+    <div class="section-inner">
+      <p class="section-tag" data-reveal>Cómo trabajamos</p>
+      <h2 class="section-h2" data-reveal data-delay="1">Proceso de <em>trabajo</em></h2>
+      <p class="section-lead" data-reveal data-delay="2">
+        Un flujo claro y transparente, con comunicación en cada etapa para
+        que siempre sepas el estado de tu proyecto.
+      </p>
+
+      <div class="process-steps">
+        <div class="step" data-reveal data-delay="1">
+          <div class="step-num">01</div>
+          <div class="step-title">Consulta inicial</div>
+          <p class="step-text">Reunión técnica para entender tu proyecto, terreno y necesidades. Sin costo, sin compromiso.</p>
+        </div>
+        <div class="step" data-reveal data-delay="2">
+          <div class="step-num">02</div>
+          <div class="step-title">Diseño y presupuesto</div>
+          <p class="step-text">Elaboramos planos estructurales y una cotización detallada con todos los materiales y mano de obra.</p>
+        </div>
+        <div class="step" data-reveal data-delay="3">
+          <div class="step-num">03</div>
+          <div class="step-title">Fabricación</div>
+          <p class="step-text">Producción de perfiles galvanizados en nuestro taller con control de calidad riguroso en cada pieza.</p>
+        </div>
+        <div class="step" data-reveal data-delay="4">
+          <div class="step-num">04</div>
+          <div class="step-title">Instalación y entrega</div>
+          <p class="step-text">Montaje en obra con nuestro equipo certificado. Entrega con inspección final y documentación completa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ PROYECTOS ════════════════════════ -->
+  <section class="section" id="proyectos">
+    <div class="section-inner">
+      <p class="section-tag" data-reveal>Nuestro portafolio</p>
+      <h2 class="section-h2" data-reveal data-delay="1">Proyectos <em>destacados</em></h2>
+      <p class="section-lead" data-reveal data-delay="2">
+        Cada obra es un testimonio de nuestra calidad constructiva y compromiso con el cliente.
+      </p>
+
+      <div class="projects-grid">
+        <div class="project-card" data-reveal="scale" data-delay="1">
+          <img src="https://placehold.co/800x400/044f97/ffffff?text=Vivienda+Unifamiliar+-+San+Isidro" alt="Proyecto 1" class="project-img" style="min-height:320px;" />
+          <div class="project-overlay"></div>
+          <div class="project-info">
+            <div class="project-type">Residencial · 2024</div>
+            <div class="project-name">Vivienda Unifamiliar San Isidro</div>
+          </div>
+        </div>
+        <div class="project-card" data-reveal="scale" data-delay="2">
+          <img src="https://placehold.co/400x400/033a70/ffffff?text=Local+Comercial" alt="Proyecto 2" class="project-img" />
+          <div class="project-overlay"></div>
+          <div class="project-info">
+            <div class="project-type">Comercial · 2024</div>
+            <div class="project-name">Local Comercial Palermo</div>
+          </div>
+        </div>
+        <div class="project-card" data-reveal="scale" data-delay="3">
+          <img src="https://placehold.co/400x350/A0A5A7/ffffff?text=Galpón+Industrial" alt="Proyecto 3" class="project-img" />
+          <div class="project-overlay"></div>
+          <div class="project-info">
+            <div class="project-type">Industrial · 2023</div>
+            <div class="project-name">Nave Industrial Pilar</div>
+          </div>
+        </div>
+        <div class="project-card" data-reveal="scale" data-delay="4">
+          <img src="https://placehold.co/400x350/1a6bbf/ffffff?text=Duplex+Tigre" alt="Proyecto 4" class="project-img" />
+          <div class="project-overlay"></div>
+          <div class="project-info">
+            <div class="project-type">Residencial · 2023</div>
+            <div class="project-name">Dúplex Tigre — Ampliación 2do Piso</div>
+          </div>
+        </div>
+        <div class="project-card" data-reveal="scale" data-delay="5">
+          <img src="https://placehold.co/400x350/b0a3b6/ffffff?text=Oficinas+Corporativas" alt="Proyecto 5" class="project-img" />
+          <div class="project-overlay"></div>
+          <div class="project-info">
+            <div class="project-type">Comercial · 2023</div>
+            <div class="project-name">Oficinas Corporativas Zona Norte</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ CTA BANNER ════════════════════════ -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <div data-reveal="left">
+        <h2 class="cta-h2">¿Listo para construir<br>tu <em>proyecto</em>?</h2>
+        <p class="cta-sub">Hablemos hoy. Sin compromiso, con toda la asesoría técnica que necesitás.</p>
+      </div>
+      <a href="#contacto" class="btn-white" data-reveal="right">Contactar Ahora</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ CONTACTO ════════════════════════ -->
+  <section class="section" id="contacto">
+    <div class="section-inner">
+      <p class="section-tag" data-reveal>Hablemos</p>
+      <h2 class="section-h2" data-reveal data-delay="1">Ponete en <em>contacto</em></h2>
+
+      <div class="contact-layout">
+        <div class="contact-info" data-reveal="left">
+          <p style="font-size:0.95rem;line-height:1.75;color:#555;max-width:340px;">
+            Nuestro equipo está listo para asesorarte en tu proyecto. Completá el formulario
+            o contactanos directamente.
+          </p>
+          <div class="contact-item">
+            <div class="contact-ico">📍</div>
+            <div>
+              <div class="contact-label">Dirección</div>
+              <div class="contact-value">Buenos Aires, Argentina</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-ico">📞</div>
+            <div>
+              <div class="contact-label">Teléfono</div>
+              <div class="contact-value">+54 9 2932 578585</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-ico">✉️</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">ac-tucasa@hotmail.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-ico">🕐</div>
+            <div>
+              <div class="contact-label">Horario de Atención</div>
+              <div class="contact-value">Lun – Vie: 8:00 – 18:00 hs</div>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form" data-reveal="right" onsubmit="event.preventDefault()">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nombre">Nombre</label>
+              <input class="form-input" type="text" id="nombre" placeholder="Tu nombre" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apellido">Apellido</label>
+              <input class="form-input" type="text" id="apellido" placeholder="Tu apellido" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" placeholder="tu@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="telefono">Teléfono</label>
+              <input class="form-input" type="tel" id="telefono" placeholder="+54 11 ..." />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="servicio">Tipo de Proyecto</label>
+            <select class="form-select" id="servicio">
+              <option value="">Seleccionar...</option>
+              <option>Vivienda Unifamiliar</option>
+              <option>Duplex / Multifamiliar</option>
+              <option>Local Comercial</option>
+              <option>Industrial / Galpón</option>
+              <option>Ampliación / Refuerzo</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mensaje">Mensaje</label>
+            <textarea class="form-textarea" id="mensaje" placeholder="Contanos sobre tu proyecto: ubicación, superficie aproximada, tiempos estimados..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Enviar Consulta →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ FOOTER ════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <img src="./AC-TUCASA-01 a.jpg" alt="AC Tu Casa" class="footer-logo" />
+      <ul class="footer-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#ventajas">Ventajas</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <p class="footer-copy">© 2025 AC Tu Casa — Estructuras de Acero. Construimos Tus Sueños.</p>
+  </footer>
+
+  <script>
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+    // ── Animated counter ──
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 1400;
+        const start = performance.now();
+        const tick = (now) => {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(ease * target);
+          if (progress < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        };
+        requestAnimationFrame(tick);
+        countObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+    // ── Nav scroll shadow ──
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
