@@ -79,6 +79,12 @@
       z-index: 20;
       pointer-events: none;
     }
+
+    @media (max-width: 768px) {
+      .logo-corner {
+        top: 5.5rem;
+      }
+    }
     .logo-corner img {
       width: clamp(110px, 22vw, 180px);
       height: clamp(110px, 22vw, 180px);
@@ -188,11 +194,12 @@
     .sub-title {
       font-family: 'BDSans', sans-serif;
       font-weight: 700;
-      font-size: clamp(0.9rem, 2vw, 1.25rem);
-      letter-spacing: 0.35em;
+      font-size: clamp(0.6rem, 2vw, 1.25rem);
+      letter-spacing: 0.2em;
       color: var(--cyan);
       opacity: 0.75;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .body-text {
