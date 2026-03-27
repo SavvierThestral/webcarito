@@ -73,19 +73,19 @@
     /* Logo top center */
     .logo-corner {
       position: fixed;
-      top: 2rem;
+      top: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
       pointer-events: none;
     }
     .logo-corner img {
-      width: 160px;
-      height: 160px;
+      width: clamp(70px, 12vw, 110px);
+      height: clamp(70px, 12vw, 110px);
       object-fit: contain;
       opacity: 0.85;
       filter: brightness(1.1);
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     /* Grain texture */
@@ -107,7 +107,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 1rem;
+      gap: 0;
+    }
+
+    .crane-container {
+      max-height: 38vh;
+      overflow: hidden;
     }
 
     /* Blueprint label corners */
@@ -437,7 +443,7 @@
         SITIO WEB<br/>EN CONSTRUCCIÓN
       </h1>
       <p class="body-text" style="margin-top:0.5rem;">
-        Estamos trabajando para traerte algo increíble.<br/>Volvé pronto. ♡
+        Estamos trabajando para traerte algo increíble.<br/>Volvé pronto. 🤍
       </p>
 
       <!-- Progress bar -->
