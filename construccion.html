@@ -5,7 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sitio en Construcción</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'SugoPro';
+      src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'SugoPro';
+      src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
+      font-weight: 300;
+    }
+    @font-face {
+      font-family: 'BDSans';
+      src: url('Beautiful delicious Font/BDSans-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'BDSans';
+      src: url('Beautiful delicious Font/BDSans-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+  </style>
   <style>
     :root {
       --blue-dark: #0a1628;
@@ -20,7 +41,7 @@
 
     body {
       background-color: var(--blue-dark);
-      font-family: 'Inter', sans-serif;
+      font-family: 'BDSans', sans-serif;
       min-height: 100vh;
       overflow: hidden;
       position: relative;
@@ -92,7 +113,7 @@
     /* Blueprint label corners */
     .corner-label {
       position: fixed;
-      font-family: 'Orbitron', monospace;
+      font-family: 'BDSans', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.15em;
       color: rgba(100, 180, 255, 0.35);
@@ -147,8 +168,8 @@
 
     /* Text styles */
     .main-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-family: 'SugoPro', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
       font-weight: 900;
       letter-spacing: -0.02em;
       line-height: 1.05;
@@ -159,8 +180,9 @@
     }
 
     .sub-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(0.7rem, 1.5vw, 1rem);
+      font-family: 'BDSans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 2vw, 1.25rem);
       letter-spacing: 0.35em;
       color: var(--cyan);
       opacity: 0.75;
@@ -168,8 +190,8 @@
     }
 
     .body-text {
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
+      font-family: 'BDSans', sans-serif;
+      font-size: 1.2rem;
       line-height: 1.7;
       color: rgba(180, 215, 255, 0.65);
       max-width: 480px;
@@ -202,7 +224,8 @@
       border-radius: 2px;
     }
     .progress-label {
-      font-family: 'Orbitron', monospace;
+      font-family: 'BDSans', sans-serif;
+      font-weight: 700;
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       color: rgba(56, 189, 248, 0.6);
