@@ -91,10 +91,20 @@
         }
         @font-face {
             font-family: 'Sugo Pro';
+            src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
+            font-weight: 300;
+        }
+        @font-face {
+            font-family: 'Sugo Pro';
             src: url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype');
             font-weight: 400;
         }
-        .hero-title, h1, h2, h3, .font-headline { font-family: 'Sugo Pro', sans-serif; }
+        @font-face {
+            font-family: 'Sugo Pro';
+            src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
+            font-weight: 700;
+        }
+        .hero-title, h1, h2, h3, h4, .font-headline { font-family: 'Sugo Pro', sans-serif; }
         .glass-nav {
             background-color: rgba(4, 79, 151, 0.60);
             backdrop-filter: blur(24px) saturate(180%);
@@ -162,7 +172,7 @@
 <img alt="viviendas residenciales" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="viviendazoom.webp"/>
 <img alt="viviendas residenciales zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="vivienda.webp"/>
 <div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-3xl font-bold font-headline mb-2">viviendas residenciales</h3>
+<h3 class="text-3xl font-normal font-headline mb-2">viviendas residenciales</h3>
 <p class="max-w-md opacity-90">Declaraciones arquitectónicas construidas para la longevidad y el confort modular de lujo.</p>
 </div>
 </div>
@@ -171,7 +181,7 @@
 <img alt="ampliaciones" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="IMG_3097.webp"/>
 <img alt="ampliaciones zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="IMG_6498.webp"/>
 <div class="absolute inset-0 flex flex-col justify-end p-10">
-<h3 class="text-3xl font-bold font-headline text-on-tertiary mb-2">ampliaciones</h3>
+<h3 class="text-3xl font-normal font-headline text-on-tertiary mb-2">ampliaciones</h3>
 <p class="text-on-tertiary/80">Módulos que generan integración en estructuras existentes para ampliaciones y segundo piso.</p>
 </div>
 </div>
@@ -181,7 +191,7 @@
 <img alt="oficinas zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="ofizoom.webp"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
 <div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-4xl font-bold font-headline mb-2">oficinas</h3>
+<h3 class="text-4xl font-normal font-headline mb-2">oficinas</h3>
 <p class="text-white/80 text-lg max-w-lg">Escala tu negocio con espacios profesionales de despliegue rápido que se adaptan a tu crecimiento.</p>
 </div>
 </div>
@@ -191,7 +201,7 @@
 <img alt="estructuras de hierro zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="estructurazoom.webp"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
 <div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-4xl font-bold font-headline mb-2">estructuras de hierro</h3>
+<h3 class="text-4xl font-normal font-headline mb-2">estructuras de hierro</h3>
 <p class="text-white/80 text-lg max-w-lg">Soluciones estructurales en acero de alta resistencia, diseñadas para proyectos que exigen precisión, durabilidad y adaptabilidad a cualquier escala.</p>
 </div>
 </div>
@@ -265,25 +275,25 @@
 <!-- Paso 01 -->
 <div class="flex flex-col items-center text-center">
 <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-headline font-bold text-lg mb-4 relative z-10">01</div>
-<h3 class="font-headline font-bold text-on-surface mb-3">Consulta inicial</h3>
+<h3 class="font-headline font-normal text-on-surface mb-3">Consulta inicial</h3>
 <p class="text-on-surface-variant text-sm"></p>
 </div>
 <!-- Paso 02 -->
 <div class="flex flex-col items-center text-center">
 <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-headline font-bold text-lg mb-4 relative z-10">02</div>
-<h3 class="font-headline font-bold text-on-surface mb-3">Diseño y presupuesto</h3>
+<h3 class="font-headline font-normal text-on-surface mb-3">Diseño y presupuesto</h3>
 <p class="text-on-surface-variant text-sm"></p>
 </div>
 <!-- Paso 03 -->
 <div class="flex flex-col items-center text-center">
 <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-headline font-bold text-lg mb-4 relative z-10">03</div>
-<h3 class="font-headline font-bold text-on-surface mb-3">Fabricación</h3>
+<h3 class="font-headline font-normal text-on-surface mb-3">Fabricación</h3>
 <p class="text-on-surface-variant text-sm"></p>
 </div>
 <!-- Paso 04 -->
 <div class="flex flex-col items-center text-center">
 <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-headline font-bold text-lg mb-4 relative z-10">04</div>
-<h3 class="font-headline font-bold text-on-surface mb-3">Instalación y entrega</h3>
+<h3 class="font-headline font-normal text-on-surface mb-3">Instalación y entrega</h3>
 <p class="text-on-surface-variant text-sm"></p>
 </div>
 </div>
@@ -295,7 +305,7 @@
 <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
 <div class="grid lg:grid-cols-2 gap-20 items-center">
 <div>
-<h2 class="text-5xl font-bold text-on-primary mb-8 tracking-tight font-headline">about us</h2>
+<h2 class="text-5xl font-light text-on-primary mb-8 tracking-tight font-headline">about us</h2>
 <p class="text-xl text-primary-fixed/80 mb-8 leading-relaxed">
                             AC TuCasa nació de una visión para revolucionar la forma en que habitamos los espacios. Aplicando la tecnología del Steel Frame con su alto confort térmico y la eficiencia en construcción.
                         </p>
