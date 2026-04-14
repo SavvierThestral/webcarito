@@ -95,6 +95,7 @@
       <button onclick="filterGallery('steel')" id="btn-steel" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Steel Frame</button>
       <button onclick="filterGallery('wood')" id="btn-wood" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Wood Frame</button>
       <button onclick="filterGallery('tradicional')" id="btn-tradicional" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Tradicional</button>
+      <button onclick="filterGallery('modulos')" id="btn-modulos" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Módulos</button>
     </div>
   </section>
 
@@ -138,6 +139,19 @@
     </div>
   </section>
 
+  <!-- Módulos -->
+  <section id="section-modulos" class="px-8 pb-16 bg-surface-container-low">
+    <div class="max-w-screen-2xl mx-auto py-12">
+      <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Módulos</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-modulos">
+        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
+        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
+        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
+        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer simple -->
   <footer class="bg-slate-50 border-t border-slate-200 py-8 px-8 text-center">
     <p class="text-slate-400 text-sm">© 2024 AC TuCasa. Excelencia en Steel Framing Arquitectónico.</p>
@@ -145,8 +159,8 @@
 
   <script>
     function filterGallery(type) {
-      const sections = ['steel', 'wood', 'tradicional'];
-      const btns = { all: 'btn-all', steel: 'btn-steel', wood: 'btn-wood', tradicional: 'btn-tradicional' };
+      const sections = ['steel', 'wood', 'tradicional', 'modulos'];
+      const btns = { all: 'btn-all', steel: 'btn-steel', wood: 'btn-wood', tradicional: 'btn-tradicional', modulos: 'btn-modulos' };
 
       // Reset all buttons
       Object.values(btns).forEach(id => {
