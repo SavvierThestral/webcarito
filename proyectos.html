@@ -8,183 +8,253 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://use.typekit.net/feh7sid.css"/>
   <style>
-    @font-face {
-      font-family: 'Sugo Pro';
-      src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
-      font-weight: 300;
-    }
-    @font-face {
-      font-family: 'Sugo Pro';
-      src: url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype');
-      font-weight: 400;
-    }
-    @font-face {
-      font-family: 'Sugo Pro';
-      src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
-      font-weight: 700;
-    }
-    body { font-family: 'coolvetica', sans-serif; }
-    h1, h2, h3, h4 { font-family: 'Sugo Pro', sans-serif; font-weight: 300; }
-    .glass-nav {
-      background-color: rgba(4, 79, 151, 0.60);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-    }
-    .photo-slot {
-      background-color: #e8eef5;
-      border: 2px dashed #a8c0d8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #7a9ab5;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    .photo-slot:hover { background-color: #d5e3f0; }
+    @font-face { font-family:'Sugo Pro'; src:url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype'); font-weight:300; }
+    @font-face { font-family:'Sugo Pro'; src:url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype'); font-weight:400; }
+    @font-face { font-family:'Sugo Pro'; src:url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype'); font-weight:700; }
+    body { font-family:'coolvetica', sans-serif; }
+    h1, h2, h3, h4 { font-family:'Sugo Pro', sans-serif; font-weight:300; }
+    .glass-nav { background-color:rgba(4,79,151,0.60); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); }
+    .project-card { cursor:pointer; position:relative; overflow:hidden; border-radius:12px; height:280px; }
+    .project-card img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+    .project-card:hover img { transform:scale(1.07); }
+    .project-card .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%); }
+    .project-card .card-title { position:absolute; bottom:0; left:0; padding:16px; color:white; font-family:'Sugo Pro', sans-serif; font-weight:300; font-size:1.25rem; }
+    #lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.96); overflow-y:auto; }
+    #lightbox.open { display:flex; flex-direction:column; }
+    #fullphoto { display:none; position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.98); align-items:center; justify-content:center; }
+    #fullphoto.open { display:flex; }
+    #fullphoto img { max-width:95vw; max-height:92vh; object-fit:contain; }
   </style>
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#00386f",
-            "primary-container": "#044f97",
-            "surface": "#f6fafc",
-            "surface-container-low": "#f0f4f6",
-            "on-surface-variant": "#424751",
-          }
-        }
-      }
+      theme: { extend: { colors: { "primary":"#00386f","primary-container":"#044f97","surface":"#f6fafc","surface-container-low":"#f0f4f6","on-surface-variant":"#424751" } } }
     }
   </script>
 </head>
 <body class="bg-surface">
 
-  <!-- Nav -->
-  <nav class="fixed top-0 w-full z-50 glass-nav">
-    <div class="max-w-screen-2xl mx-auto px-8 py-0 flex justify-between items-center">
-      <a href="index_site.html">
-        <div class="h-20 w-20 rounded-full overflow-hidden flex-shrink-0">
-          <img alt="AC TuCasa" class="w-full h-full object-contain" src="tu-casa-logo.webp"/>
-        </div>
-      </a>
-      <div class="hidden md:flex items-center gap-10" style="font-family:'coolvetica',sans-serif; font-weight:500;">
-        <a class="text-white/80 hover:text-white transition-colors" href="index_site.html">Inicio</a>
-        <a class="text-white border-b-2 border-white pb-1" href="proyectos.html">Proyectos</a>
-        <a class="text-white/80 hover:text-white transition-colors" href="index_site.html#proceso">Proceso</a>
-        <a class="text-white/80 hover:text-white transition-colors" href="index_site.html#contacto">Contacto</a>
+<!-- Lightbox modal -->
+<div id="lightbox">
+  <div class="sticky top-0 flex justify-between items-center px-6 py-4 z-10" style="background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);">
+    <h2 id="lb-title" class="text-white text-3xl" style="font-family:'Sugo Pro',sans-serif;font-weight:300;"></h2>
+    <button onclick="closeLightbox()" class="text-white/80 hover:text-white text-5xl leading-none">&times;</button>
+  </div>
+  <div id="lb-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-4 max-w-7xl mx-auto pb-12"></div>
+</div>
+
+<!-- Full photo viewer -->
+<div id="fullphoto" onclick="closeFullPhoto()">
+  <img id="fullphoto-img" src="" alt=""/>
+  <button onclick="closeFullPhoto()" class="absolute top-4 right-4 text-white/70 hover:text-white text-4xl leading-none">&times;</button>
+</div>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 glass-nav">
+  <div class="max-w-screen-2xl mx-auto px-8 py-0 flex justify-between items-center">
+    <a href="index_site.html">
+      <div class="h-20 w-20 rounded-full overflow-hidden flex-shrink-0" style="border-radius:9999px;">
+        <img alt="AC TuCasa" class="w-full h-full object-contain" src="tu-casa-logo.webp"/>
       </div>
-      <button class="px-6 py-2.5 rounded-md font-semibold text-sm" style="background-color:#d5e3fc;color:#00386f;">Cotizar</button>
+    </a>
+    <div class="hidden md:flex items-center gap-10" style="font-family:'coolvetica',sans-serif;font-weight:500;">
+      <a class="text-white/80 hover:text-white transition-colors" href="index_site.html">Inicio</a>
+      <a class="text-white border-b-2 border-white pb-1" href="proyectos.html">Proyectos</a>
+      <a class="text-white/80 hover:text-white transition-colors" href="index_site.html#proceso">Proceso</a>
+      <a class="text-white/80 hover:text-white transition-colors" href="index_site.html#contacto">Contacto</a>
     </div>
-  </nav>
+    <button class="px-6 py-2.5 rounded-md font-semibold text-sm" style="background-color:#d5e3fc;color:#00386f;">Cotizar</button>
+  </div>
+</nav>
 
-  <!-- Header -->
-  <section class="pt-40 pb-12 px-8 bg-surface">
-    <div class="max-w-screen-2xl mx-auto">
-      <p class="text-xs uppercase tracking-widest mb-4" style="color:#6B9FD4; font-family:'coolvetica',sans-serif;">Nuestros proyectos</p>
-      <h1 class="text-6xl md:text-8xl text-primary mb-6" style="font-weight:400;">galería</h1>
-      <p class="text-lg text-on-surface-variant max-w-xl">Cada proyecto es único. Explorá nuestros trabajos organizados por tipo de construcción.</p>
-    </div>
-  </section>
+<!-- Header -->
+<section class="pt-40 pb-12 px-8 bg-surface">
+  <div class="max-w-screen-2xl mx-auto">
+    <p class="text-xs uppercase tracking-widest mb-4" style="color:#6B9FD4;font-family:'coolvetica',sans-serif;">Nuestros proyectos</p>
+    <h1 class="text-6xl md:text-8xl text-primary mb-6" style="font-weight:400;">galería</h1>
+    <p class="text-lg text-on-surface-variant max-w-xl">Cada proyecto es único. Explorá nuestros trabajos organizados por tipo de construcción.</p>
+  </div>
+</section>
 
-  <!-- Filtros -->
-  <section class="px-8 pb-8">
-    <div class="max-w-screen-2xl mx-auto flex gap-3 flex-wrap">
-      <button onclick="filterGallery('all')" id="btn-all" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-primary text-white">Todos</button>
-      <button onclick="filterGallery('steel')" id="btn-steel" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Steel Frame</button>
-      <button onclick="filterGallery('wood')" id="btn-wood" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Wood Frame</button>
-      <button onclick="filterGallery('tradicional')" id="btn-tradicional" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Tradicional</button>
-      <button onclick="filterGallery('modulos')" id="btn-modulos" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white">Módulos</button>
-    </div>
-  </section>
+<!-- Filtros -->
+<section class="px-8 pb-8">
+  <div class="max-w-screen-2xl mx-auto flex gap-3 flex-wrap">
+    <button onclick="filterGallery('all')" id="btn-all" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-primary text-white" style="border-radius:9999px;">Todos</button>
+    <button onclick="filterGallery('steel')" id="btn-steel" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white" style="border-radius:9999px;">Steel Frame</button>
+    <button onclick="filterGallery('wood')" id="btn-wood" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white" style="border-radius:9999px;">Wood Frame</button>
+    <button onclick="filterGallery('tradicional')" id="btn-tradicional" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white" style="border-radius:9999px;">Tradicional</button>
+    <button onclick="filterGallery('modulos')" id="btn-modulos" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white" style="border-radius:9999px;">Módulos</button>
+    <button onclick="filterGallery('estructuras')" id="btn-estructuras" class="filter-btn px-5 py-2 text-sm font-medium transition-colors bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-white" style="border-radius:9999px;">Estructuras</button>
+  </div>
+</section>
 
-  <!-- Steel Frame -->
-  <section id="section-steel" class="px-8 pb-16">
-    <div class="max-w-screen-2xl mx-auto">
-      <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Steel Frame</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-steel">
-        <!-- Las fotos se van a agregar acá -->
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-      </div>
-    </div>
-  </section>
+<!-- Steel Frame -->
+<section id="section-steel" class="px-8 pb-16">
+  <div class="max-w-screen-2xl mx-auto">
+    <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Steel Frame</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-steel"></div>
+  </div>
+</section>
 
-  <!-- Wood Frame -->
-  <section id="section-wood" class="px-8 pb-16 bg-surface-container-low">
-    <div class="max-w-screen-2xl mx-auto py-12">
-      <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Wood Frame</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-wood">
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-      </div>
-    </div>
-  </section>
+<!-- Wood Frame -->
+<section id="section-wood" class="px-8 pb-16 bg-surface-container-low">
+  <div class="max-w-screen-2xl mx-auto py-12">
+    <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Wood Frame</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-wood"></div>
+  </div>
+</section>
 
-  <!-- Tradicional -->
-  <section id="section-tradicional" class="px-8 pb-16">
-    <div class="max-w-screen-2xl mx-auto py-12">
-      <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Tradicional</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-tradicional">
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-      </div>
-    </div>
-  </section>
+<!-- Tradicional -->
+<section id="section-tradicional" class="px-8 pb-16">
+  <div class="max-w-screen-2xl mx-auto py-12">
+    <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Tradicional</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-tradicional"></div>
+  </div>
+</section>
 
-  <!-- Módulos -->
-  <section id="section-modulos" class="px-8 pb-16 bg-surface-container-low">
-    <div class="max-w-screen-2xl mx-auto py-12">
-      <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Módulos</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-modulos">
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-        <div class="photo-slot rounded-xl h-64">+ Agregar foto</div>
-      </div>
-    </div>
-  </section>
+<!-- Módulos -->
+<section id="section-modulos" class="px-8 pb-16 bg-surface-container-low">
+  <div class="max-w-screen-2xl mx-auto py-12">
+    <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Módulos</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-modulos"></div>
+  </div>
+</section>
 
-  <!-- Footer simple -->
-  <footer class="bg-slate-50 border-t border-slate-200 py-8 px-8 text-center">
-    <p class="text-slate-400 text-sm">© 2004 AC TuCasa. Excelencia en Steel Framing Arquitectónico.</p>
-  </footer>
+<!-- Estructuras -->
+<section id="section-estructuras" class="px-8 pb-16">
+  <div class="max-w-screen-2xl mx-auto py-12">
+    <h2 class="text-4xl text-primary mb-8" style="font-weight:300;">Estructuras</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid-estructuras"></div>
+  </div>
+</section>
 
-  <script>
-    function filterGallery(type) {
-      const sections = ['steel', 'wood', 'tradicional', 'modulos'];
-      const btns = { all: 'btn-all', steel: 'btn-steel', wood: 'btn-wood', tradicional: 'btn-tradicional', modulos: 'btn-modulos' };
+<!-- Footer -->
+<footer class="bg-slate-50 border-t border-slate-200 py-8 px-8 text-center">
+  <p class="text-slate-400 text-sm">© 2004 AC TuCasa. Excelencia en Steel Framing Arquitectónico.</p>
+</footer>
 
-      // Reset all buttons
-      Object.values(btns).forEach(id => {
-        const btn = document.getElementById(id);
-        btn.classList.remove('bg-primary', 'text-white');
-        btn.classList.add('bg-surface-container-low', 'text-on-surface-variant');
-      });
+<script>
+const DATA = {
+  steel: [
+    { name:'bosque', visible:true, cover:'galeria/steel frame/bosque/IMG_0125.JPG', photos:['galeria/steel frame/bosque/IMG_0125.JPG','galeria/steel frame/bosque/IMG_1053.JPG','galeria/steel frame/bosque/IMG_1053(1).JPG','galeria/steel frame/bosque/IMG_1066.JPG','galeria/steel frame/bosque/IMG_1069.JPG','galeria/steel frame/bosque/IMG_1070.JPG','galeria/steel frame/bosque/IMG_2496.JPG','galeria/steel frame/bosque/IMG_3382.JPG','galeria/steel frame/bosque/IMG_3388.JPG','galeria/steel frame/bosque/IMG_4445.JPG','galeria/steel frame/bosque/IMG_4448.JPG','galeria/steel frame/bosque/IMG_4460.JPG','galeria/steel frame/bosque/IMG_4461.JPG','galeria/steel frame/bosque/IMG_7203.JPG','galeria/steel frame/bosque/IMG_7613.JPG','galeria/steel frame/bosque/IMG_7616.JPG','galeria/steel frame/bosque/IMG_7883.JPG','galeria/steel frame/bosque/IMG_7894.JPG','galeria/steel frame/bosque/IMG_8511.JPG','galeria/steel frame/bosque/IMG_9351.JPG','galeria/steel frame/bosque/IMG_9354.JPG','galeria/steel frame/bosque/IMG_9866.JPG','galeria/steel frame/bosque/IMG_9870.JPG'] },
+    { name:'espejo', visible:true, cover:'galeria/steel frame/espejo/IMG_20220317_110703_Original.JPG', photos:['galeria/steel frame/espejo/IMG_20220317_110703_Original.JPG','galeria/steel frame/espejo/IMG_20220317_110724.jpg','galeria/steel frame/espejo/IMG_20220317_110736_Original.JPG','galeria/steel frame/espejo/IMG_20220317_110916.jpg','galeria/steel frame/espejo/IMG_20220317_111326.jpg'] },
+    { name:'high', visible:true, cover:'galeria/steel frame/high/IMG_2875.JPG', photos:['galeria/steel frame/high/IMG_2875.JPG','galeria/steel frame/high/IMG_3284.JPG'] },
+    { name:'refugio', visible:true, cover:'galeria/steel frame/refugio/IMG_1557.JPG', photos:['galeria/steel frame/refugio/IMG_1557.JPG','galeria/steel frame/refugio/IMG_1575.JPG','galeria/steel frame/refugio/IMG_1772.JPG','galeria/steel frame/refugio/IMG_1841.JPG','galeria/steel frame/refugio/IMG_2079.JPG','galeria/steel frame/refugio/IMG_9205.JPG','galeria/steel frame/refugio/IMG_9583.JPG'] },
+    { name:'rou', visible:true, cover:'galeria/steel frame/rou/IMG_2159.jpg', photos:['galeria/steel frame/rou/IMG_2159.jpg','galeria/steel frame/rou/IMG_6320.JPG','galeria/steel frame/rou/IMG_9979.JPG','galeria/steel frame/rou/IMG_9984.JPG','galeria/steel frame/rou/14f2eb28-5af3-4858-ba30-bd775748a381.jpg','galeria/steel frame/rou/58977DCB-45FE-4DD8-9DC9-2A7855E4E636.jpg','galeria/steel frame/rou/A58BA630-A6BD-464F-8441-75160CDA7263.jpg','galeria/steel frame/rou/D2D0B379-4BA1-4BC3-A332-DEB6E4E6572A.jpg','galeria/steel frame/rou/EC85F3C9-F9E1-441A-9A2F-665DFF3D8746.jpg','galeria/steel frame/rou/c76bb0ea-472c-498b-9b4f-2242ff2a2d09.jpg'] },
+    { name:'sol', visible:true, cover:'galeria/steel frame/sol/IMG_8845.JPG', photos:['galeria/steel frame/sol/IMG_8845.JPG','galeria/steel frame/sol/IMG_8851.JPG','galeria/steel frame/sol/IMG_8859.JPG','galeria/steel frame/sol/IMG_9217.JPG','galeria/steel frame/sol/103ccd01-56f1-48f6-a888-5854663183b5.jpg'] },
+    { name:'sunset', visible:true, cover:'galeria/steel frame/sunset/IMG_1616.JPG', photos:['galeria/steel frame/sunset/IMG_1616.JPG','galeria/steel frame/sunset/IMG_1620.JPG','galeria/steel frame/sunset/IMG_1622.JPG','galeria/steel frame/sunset/IMG_1625.JPG','galeria/steel frame/sunset/IMG_5853.JPG','galeria/steel frame/sunset/IMG_9213.JPG'] },
+    { name:'no se sabe el nombre #1', visible:false, cover:'galeria/steel frame/no se sabe el nombre #1/IMG_20220115_114523.jpg', photos:['galeria/steel frame/no se sabe el nombre #1/IMG_20220115_114523.jpg'] },
+  ],
+  wood: [
+    { name:'cerro', visible:true, cover:'galeria/wood/cerro/IMG_1857.JPG', photos:['galeria/wood/cerro/IMG_1857.JPG','galeria/wood/cerro/IMG_1860.JPG','galeria/wood/cerro/IMG_1875.JPG','galeria/wood/cerro/IMG_1887.JPG','galeria/wood/cerro/IMG_1891.JPG','galeria/wood/cerro/IMG_1897.JPG','galeria/wood/cerro/IMG_1901.JPG','galeria/wood/cerro/39d8b424-dc8b-4e4e-8829-4b1e96a05b10.jpg'] },
+    { name:'no se sabe el nombre #3', visible:false, cover:'', photos:[] },
+  ],
+  tradicional: [
+    { name:'nutria', visible:true, cover:'galeria/tradicional/nutria/IMG_0255.JPG', photos:['galeria/tradicional/nutria/IMG_0255.JPG','galeria/tradicional/nutria/IMG_0256.JPG','galeria/tradicional/nutria/IMG_4360.JPG','galeria/tradicional/nutria/IMG_4808.JPG','galeria/tradicional/nutria/IMG_4812.JPG','galeria/tradicional/nutria/IMG_4833.JPG','galeria/tradicional/nutria/IMG_4839.JPG','galeria/tradicional/nutria/IMG_9436.JPG'] },
+    { name:'oasis', visible:true, cover:'galeria/tradicional/oasis/IMG_0100.JPG', photos:['galeria/tradicional/oasis/IMG_0100.JPG','galeria/tradicional/oasis/IMG_0102.JPG','galeria/tradicional/oasis/IMG_0306.JPG','galeria/tradicional/oasis/IMG_0309.JPG','galeria/tradicional/oasis/IMG_0427.JPG','galeria/tradicional/oasis/IMG_1349.JPG','galeria/tradicional/oasis/IMG_1356.JPG','galeria/tradicional/oasis/IMG_1358.JPG','galeria/tradicional/oasis/IMG_1529.JPG','galeria/tradicional/oasis/IMG_2086.JPG','galeria/tradicional/oasis/IMG_2401.JPG','galeria/tradicional/oasis/IMG_2650.JPG','galeria/tradicional/oasis/IMG_2818.JPG','galeria/tradicional/oasis/IMG_2822.JPG','galeria/tradicional/oasis/IMG_2825.JPG','galeria/tradicional/oasis/IMG_2835.JPG','galeria/tradicional/oasis/IMG_2841.JPG','galeria/tradicional/oasis/IMG_2857.JPG','galeria/tradicional/oasis/IMG_2934.JPG','galeria/tradicional/oasis/IMG_2935.JPG','galeria/tradicional/oasis/IMG_2952.JPG','galeria/tradicional/oasis/IMG_2955.JPG','galeria/tradicional/oasis/IMG_2957.JPG','galeria/tradicional/oasis/IMG_3439.JPG','galeria/tradicional/oasis/IMG_4093.JPG','galeria/tradicional/oasis/IMG_4095.JPG','galeria/tradicional/oasis/IMG_4109.JPG','galeria/tradicional/oasis/IMG_4511.JPG','galeria/tradicional/oasis/IMG_8665.JPG'] },
+    { name:'no se sabe el nombre #tepuse', visible:false, cover:'galeria/tradicional/no se sabe el nombre #tepuse/IMG_20211229_181926.jpg', photos:['galeria/tradicional/no se sabe el nombre #tepuse/IMG_20211229_181926.jpg','galeria/tradicional/no se sabe el nombre #tepuse/IMG_20211229_182152.jpg'] },
+  ],
+  modulos: [
+    { name:'entre arbustos', visible:true, cover:'galeria/modulos/entre arbustos/IMG_1511.JPG', photos:['galeria/modulos/entre arbustos/IMG_1511.JPG','galeria/modulos/entre arbustos/IMG_1515.JPG','galeria/modulos/entre arbustos/IMG_2524.JPG','galeria/modulos/entre arbustos/IMG_2531.JPG','galeria/modulos/entre arbustos/IMG_2535.JPG','galeria/modulos/entre arbustos/IMG_2541.JPG','galeria/modulos/entre arbustos/IMG_3606.JPG','galeria/modulos/entre arbustos/IMG_3611.JPG','galeria/modulos/entre arbustos/IMG_3614.JPG','galeria/modulos/entre arbustos/IMG_3618.JPG','galeria/modulos/entre arbustos/IMG_7378.JPG','galeria/modulos/entre arbustos/IMG_7405.JPG','galeria/modulos/entre arbustos/IMG_8251.JPG','galeria/modulos/entre arbustos/IMG_8254.JPG'] },
+    { name:'entre pinos', visible:true, cover:'galeria/modulos/entre pinos/IMG_1475.JPG', photos:['galeria/modulos/entre pinos/IMG_1475.JPG','galeria/modulos/entre pinos/IMG_2260.JPG','galeria/modulos/entre pinos/IMG_4495.JPG','galeria/modulos/entre pinos/IMG_4660.JPG','galeria/modulos/entre pinos/IMG_4662.JPG','galeria/modulos/entre pinos/IMG_4735.JPG','galeria/modulos/entre pinos/IMG_4754.JPG','galeria/modulos/entre pinos/IMG_4764.JPG','galeria/modulos/entre pinos/IMG_4766.JPG','galeria/modulos/entre pinos/IMG_4769.JPG','galeria/modulos/entre pinos/IMG_4771.JPG','galeria/modulos/entre pinos/IMG_4781.JPG','galeria/modulos/entre pinos/IMG_4786.jpg','galeria/modulos/entre pinos/IMG_7660.JPG','galeria/modulos/entre pinos/IMG_7683.JPG','galeria/modulos/entre pinos/IMG_7686.JPG','galeria/modulos/entre pinos/IMG_7719.JPG','galeria/modulos/entre pinos/IMG_7725.JPG'] },
+    { name:'fresno', visible:true, cover:'galeria/modulos/fresno/IMG_7982.JPG', photos:['galeria/modulos/fresno/IMG_7982.JPG','galeria/modulos/fresno/IMG_0408.JPG','galeria/modulos/fresno/IMG_1500.JPG','galeria/modulos/fresno/IMG_1505.JPG','galeria/modulos/fresno/IMG_1611.JPG','galeria/modulos/fresno/IMG_1667.JPG','galeria/modulos/fresno/IMG_3286.JPG','galeria/modulos/fresno/IMG_3865.JPG','galeria/modulos/fresno/IMG_4234.JPG','galeria/modulos/fresno/IMG_4277.JPG','galeria/modulos/fresno/IMG_5556.JPG','galeria/modulos/fresno/IMG_6867.JPG','galeria/modulos/fresno/IMG_6869.JPG','galeria/modulos/fresno/IMG_6904.JPG','galeria/modulos/fresno/IMG_7089.JPG','galeria/modulos/fresno/IMG_7720.JPG','galeria/modulos/fresno/IMG_7755.jpg','galeria/modulos/fresno/IMG_7931.JPG','galeria/modulos/fresno/IMG_8512.JPG','galeria/modulos/fresno/CFDC03EE-C977-47D9-A821-FA48286677AC.jpg'] },
+    { name:'ombu', visible:true, cover:'galeria/modulos/ombu/IMG_1465.JPG', photos:['galeria/modulos/ombu/IMG_1465.JPG','galeria/modulos/ombu/IMG_3097.JPG','galeria/modulos/ombu/IMG_3106.JPG','galeria/modulos/ombu/IMG_6480.JPG','galeria/modulos/ombu/IMG_6492.JPG','galeria/modulos/ombu/IMG_6497.JPG','galeria/modulos/ombu/IMG_6498.JPG','galeria/modulos/ombu/IMG_6510.JPG','galeria/modulos/ombu/IMG_6512.JPG','galeria/modulos/ombu/IMG_6514.JPG','galeria/modulos/ombu/IMG_9905.JPG','galeria/modulos/ombu/IMG_9919.JPG'] },
+    { name:'pequeño paraiso', visible:true, cover:'galeria/modulos/pequeño paraiso/IMG_1805.JPG', photos:['galeria/modulos/pequeño paraiso/IMG_1805.JPG','galeria/modulos/pequeño paraiso/IMG_2354.JPG','galeria/modulos/pequeño paraiso/IMG_2580.JPG','galeria/modulos/pequeño paraiso/IMG_2582.JPG','galeria/modulos/pequeño paraiso/IMG_2589.JPG','galeria/modulos/pequeño paraiso/IMG_3277.JPG','galeria/modulos/pequeño paraiso/IMG_5860.JPG','galeria/modulos/pequeño paraiso/IMG_5915.JPG','galeria/modulos/pequeño paraiso/IMG_5917.JPG','galeria/modulos/pequeño paraiso/IMG_6556.JPG','galeria/modulos/pequeño paraiso/IMG_6565.JPG','galeria/modulos/pequeño paraiso/IMG_7272.jpg','galeria/modulos/pequeño paraiso/IMG_7466.JPG','galeria/modulos/pequeño paraiso/IMG_7571.JPG','galeria/modulos/pequeño paraiso/IMG_8897.JPG','galeria/modulos/pequeño paraiso/IMG_8898.JPG','galeria/modulos/pequeño paraiso/IMG_8899.JPG','galeria/modulos/pequeño paraiso/IMG_8900.JPG','galeria/modulos/pequeño paraiso/IMG_8902.JPG','galeria/modulos/pequeño paraiso/INTERIOR VERTICAL Bluebird Feather.jpg'] },
+  ],
+  estructuras: [
+    { name:'estructuras', visible:true, cover:'galeria/estructuras/IMG_7966.JPG', photos:['galeria/estructuras/IMG_7966.JPG','galeria/estructuras/IMG_8020.JPG'] },
+  ]
+};
 
-      // Activate selected button
-      const activeBtn = document.getElementById(btns[type]);
-      activeBtn.classList.add('bg-primary', 'text-white');
-      activeBtn.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+function buildCards(category, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  DATA[category].forEach(project => {
+    if (!project.visible) return;
+    if (!project.cover) return;
+    const div = document.createElement('div');
+    div.className = 'project-card';
+    div.onclick = () => openLightbox(project.name, project.photos);
+    div.innerHTML = `
+      <img src="${project.cover}" alt="${project.name}" loading="lazy"/>
+      <div class="overlay"></div>
+      <div class="card-title">${project.name}</div>
+    `;
+    container.appendChild(div);
+  });
+  // Estructuras: flat grid (just photos, no sub-project cards)
+  if (category === 'estructuras') {
+    container.innerHTML = '';
+    DATA.estructuras[0].photos.forEach(photo => {
+      const div = document.createElement('div');
+      div.className = 'project-card';
+      div.onclick = () => openFullPhoto(photo);
+      div.innerHTML = `<img src="${photo}" alt="estructura" loading="lazy"/><div class="overlay"></div>`;
+      container.appendChild(div);
+    });
+  }
+}
 
-      // Show/hide sections
-      sections.forEach(s => {
-        const section = document.getElementById('section-' + s);
-        if (type === 'all' || type === s) {
-          section.style.display = '';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-    }
-  </script>
+function openLightbox(name, photos) {
+  if (!photos || photos.length === 0) return;
+  document.getElementById('lb-title').textContent = name;
+  const grid = document.getElementById('lb-grid');
+  grid.innerHTML = photos.map(p =>
+    `<div class="project-card" style="height:200px;" onclick="openFullPhoto('${p.replace(/'/g,"\\'")}')">
+      <img src="${p}" alt="" loading="lazy"/>
+      <div class="overlay"></div>
+    </div>`
+  ).join('');
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function openFullPhoto(src) {
+  document.getElementById('fullphoto-img').src = src;
+  document.getElementById('fullphoto').classList.add('open');
+}
+
+function closeFullPhoto() {
+  document.getElementById('fullphoto').classList.remove('open');
+  document.getElementById('fullphoto-img').src = '';
+}
+
+function filterGallery(type) {
+  const sections = ['steel','wood','tradicional','modulos','estructuras'];
+  const btns = { all:'btn-all', steel:'btn-steel', wood:'btn-wood', tradicional:'btn-tradicional', modulos:'btn-modulos', estructuras:'btn-estructuras' };
+  Object.values(btns).forEach(id => {
+    const btn = document.getElementById(id);
+    btn.style.backgroundColor = '';
+    btn.style.color = '';
+    btn.classList.remove('bg-primary','text-white');
+    btn.classList.add('bg-surface-container-low','text-on-surface-variant');
+  });
+  const active = document.getElementById(btns[type]);
+  active.classList.add('bg-primary','text-white');
+  active.classList.remove('bg-surface-container-low','text-on-surface-variant');
+  sections.forEach(s => {
+    const section = document.getElementById('section-' + s);
+    section.style.display = (type === 'all' || type === s) ? '' : 'none';
+  });
+}
+
+// Build all cards on load
+buildCards('steel', 'grid-steel');
+buildCards('wood', 'grid-wood');
+buildCards('tradicional', 'grid-tradicional');
+buildCards('modulos', 'grid-modulos');
+buildCards('estructuras', 'grid-estructuras');
+
+// Keyboard: Escape closes modals
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeFullPhoto(); closeLightbox(); }
+});
+</script>
 
 </body>
 </html>
