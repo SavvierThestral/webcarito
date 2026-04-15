@@ -19,11 +19,30 @@
     .project-card:hover img { transform:scale(1.07); }
     .project-card .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%); }
     .project-card .card-title { position:absolute; bottom:0; left:0; padding:16px; color:white; font-family:'Sugo Pro', sans-serif; font-weight:300; font-size:1.25rem; }
-    #lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.96); overflow-y:auto; }
-    #lightbox.open { display:flex; flex-direction:column; }
-    #fullphoto { display:none; position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.98); align-items:center; justify-content:center; }
-    #fullphoto.open { display:flex; }
-    #fullphoto img { max-width:95vw; max-height:92vh; object-fit:contain; }
+    #lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.97); flex-direction:column; }
+    #lightbox.open { display:flex; }
+
+    /* Main photo */
+    #lb-main-wrap { position:relative; flex:1; min-height:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    #lb-main-img { max-width:100%; max-height:100%; object-fit:contain; user-select:none; transition:opacity 0.2s ease; }
+
+    /* Arrows */
+    .lb-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:2rem; width:48px; height:48px; border-radius:9999px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:background 0.2s; z-index:10; }
+    .lb-arrow:hover { background:rgba(255,255,255,0.28); }
+    #lb-prev { left:12px; }
+    #lb-next { right:12px; }
+
+    /* Dots */
+    #lb-dots { display:flex; justify-content:center; align-items:center; gap:6px; padding:10px 0 8px; flex-shrink:0; }
+    .lb-dot { width:7px; height:7px; border-radius:9999px; background:rgba(255,255,255,0.3); transition:background 0.2s, width 0.2s; cursor:pointer; flex-shrink:0; }
+    .lb-dot.active { background:white; width:20px; }
+
+    /* Thumbnails strip */
+    #lb-thumbs { display:flex; gap:6px; overflow-x:auto; padding:0 12px 14px; flex-shrink:0; scrollbar-width:none; }
+    #lb-thumbs::-webkit-scrollbar { display:none; }
+    .lb-thumb { width:72px; height:72px; flex-shrink:0; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:border-color 0.2s, opacity 0.2s; opacity:0.55; }
+    .lb-thumb.active { border-color:white; opacity:1; }
+    .lb-thumb img { width:100%; height:100%; object-fit:cover; }
   </style>
   <script>
     tailwind.config = {
@@ -35,17 +54,27 @@
 
 <!-- Lightbox modal -->
 <div id="lightbox">
-  <div class="sticky top-0 flex justify-between items-center px-6 py-4 z-10" style="background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);">
-    <h2 id="lb-title" class="text-white text-3xl" style="font-family:'Sugo Pro',sans-serif;font-weight:300;"></h2>
-    <button onclick="closeLightbox()" class="text-white/80 hover:text-white text-5xl leading-none">&times;</button>
+  <!-- Header -->
+  <div class="flex justify-between items-center px-5 py-3 flex-shrink-0" style="background:rgba(0,0,0,0.5);backdrop-filter:blur(12px);">
+    <h2 id="lb-title" class="text-white text-2xl" style="font-family:'Sugo Pro',sans-serif;font-weight:300;"></h2>
+    <div class="flex items-center gap-4">
+      <span id="lb-counter" class="text-white/60 text-sm"></span>
+      <button onclick="closeLightbox()" class="text-white/70 hover:text-white text-4xl leading-none">&times;</button>
+    </div>
   </div>
-  <div id="lb-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-4 max-w-7xl mx-auto pb-12"></div>
-</div>
 
-<!-- Full photo viewer -->
-<div id="fullphoto" onclick="closeFullPhoto()">
-  <img id="fullphoto-img" src="" alt=""/>
-  <button onclick="closeFullPhoto()" class="absolute top-4 right-4 text-white/70 hover:text-white text-4xl leading-none">&times;</button>
+  <!-- Main photo -->
+  <div id="lb-main-wrap">
+    <button class="lb-arrow" id="lb-prev" onclick="lbGo(-1)">&#8249;</button>
+    <img id="lb-main-img" src="" alt=""/>
+    <button class="lb-arrow" id="lb-next" onclick="lbGo(1)">&#8250;</button>
+  </div>
+
+  <!-- Dots -->
+  <div id="lb-dots"></div>
+
+  <!-- Thumbnails -->
+  <div id="lb-thumbs"></div>
 </div>
 
 <!-- Nav -->
@@ -183,46 +212,90 @@ function buildCards(category, containerId) {
     `;
     container.appendChild(div);
   });
-  // Estructuras: flat grid (just photos, no sub-project cards)
+  // Estructuras: flat grid, opens carousel from clicked photo
   if (category === 'estructuras') {
+    const allPhotos = DATA.estructuras[0].photos;
     container.innerHTML = '';
-    DATA.estructuras[0].photos.forEach(photo => {
+    allPhotos.forEach((photo, idx) => {
       const div = document.createElement('div');
       div.className = 'project-card';
-      div.onclick = () => openFullPhoto(photo);
+      div.onclick = () => openLightbox('Estructuras', allPhotos, idx);
       div.innerHTML = `<img src="${photo}" alt="estructura" loading="lazy"/><div class="overlay"></div>`;
       container.appendChild(div);
     });
   }
 }
 
-function openLightbox(name, photos) {
+let lbPhotos = [];
+let lbIndex = 0;
+
+function openLightbox(name, photos, startIndex = 0) {
   if (!photos || photos.length === 0) return;
+  lbPhotos = photos;
+  lbIndex = startIndex;
   document.getElementById('lb-title').textContent = name;
-  const grid = document.getElementById('lb-grid');
-  grid.innerHTML = photos.map(p =>
-    `<div class="project-card" style="height:200px;" onclick="openFullPhoto('${p.replace(/'/g,"\\'")}')">
-      <img src="${p}" alt="" loading="lazy"/>
-      <div class="overlay"></div>
-    </div>`
-  ).join('');
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
+  buildThumbs();
+  lbSetPhoto(startIndex);
+}
+
+function buildThumbs() {
+  const thumbs = document.getElementById('lb-thumbs');
+  thumbs.innerHTML = lbPhotos.map((p, i) =>
+    `<div class="lb-thumb${i===0?' active':''}" id="lbt-${i}" onclick="lbSetPhoto(${i})">
+      <img src="${p}" alt="" loading="lazy"/>
+    </div>`
+  ).join('');
+
+  // Dots: max 20 visible dots; if more photos, show mini dots for far ones
+  const dots = document.getElementById('lb-dots');
+  const total = lbPhotos.length;
+  const maxDots = Math.min(total, 20);
+  dots.innerHTML = Array.from({length: maxDots}, (_, i) =>
+    `<div class="lb-dot${i===0?' active':''}" id="lbd-${i}" onclick="lbSetPhoto(${i})"></div>`
+  ).join('');
+}
+
+function lbSetPhoto(idx) {
+  lbIndex = idx;
+  const img = document.getElementById('lb-main-img');
+  img.style.opacity = '0';
+  setTimeout(() => {
+    img.src = lbPhotos[idx];
+    img.style.opacity = '1';
+  }, 100);
+
+  // Update counter
+  document.getElementById('lb-counter').textContent = `${idx + 1} / ${lbPhotos.length}`;
+
+  // Update thumb active
+  document.querySelectorAll('.lb-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+
+  // Scroll active thumb into view
+  const activeThumb = document.getElementById('lbt-' + idx);
+  if (activeThumb) activeThumb.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+
+  // Update dots active
+  const maxDots = Math.min(lbPhotos.length, 20);
+  const dotIdx = Math.round(idx / Math.max(lbPhotos.length - 1, 1) * (maxDots - 1));
+  document.querySelectorAll('.lb-dot').forEach((d, i) => d.classList.toggle('active', i === dotIdx));
+
+  // Show/hide arrows
+  document.getElementById('lb-prev').style.display = idx === 0 ? 'none' : 'flex';
+  document.getElementById('lb-next').style.display = idx === lbPhotos.length - 1 ? 'none' : 'flex';
+}
+
+function lbGo(dir) {
+  const next = lbIndex + dir;
+  if (next >= 0 && next < lbPhotos.length) lbSetPhoto(next);
 }
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
-}
-
-function openFullPhoto(src) {
-  document.getElementById('fullphoto-img').src = src;
-  document.getElementById('fullphoto').classList.add('open');
-}
-
-function closeFullPhoto() {
-  document.getElementById('fullphoto').classList.remove('open');
-  document.getElementById('fullphoto-img').src = '';
+  lbPhotos = [];
+  lbIndex = 0;
 }
 
 function filterGallery(type) {
@@ -251,10 +324,20 @@ buildCards('tradicional', 'grid-tradicional');
 buildCards('modulos', 'grid-modulos');
 buildCards('estructuras', 'grid-estructuras');
 
-// Keyboard: Escape closes modals
+// Keyboard
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeFullPhoto(); closeLightbox(); }
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lbGo(-1);
+  if (e.key === 'ArrowRight') lbGo(1);
 });
+
+// Swipe (mobile)
+let tsX = 0;
+document.getElementById('lb-main-wrap').addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('lb-main-wrap').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tsX;
+  if (Math.abs(dx) > 40) lbGo(dx < 0 ? 1 : -1);
+}, {passive:true});
 </script>
 
 </body>
