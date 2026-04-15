@@ -1,471 +1,478 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sitio en Construcción</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @font-face {
-      font-family: 'SugoPro';
-      src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
-      font-weight: 700;
-    }
-    @font-face {
-      font-family: 'SugoPro';
-      src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
-      font-weight: 300;
-    }
-    @font-face {
-      font-family: 'BDSans';
-      src: url('Beautiful delicious Font/BDSans-Regular.otf') format('opentype');
-      font-weight: 400;
-    }
-    @font-face {
-      font-family: 'BDSans';
-      src: url('Beautiful delicious Font/BDSans-Bold.otf') format('opentype');
-      font-weight: 700;
-    }
-  </style>
-  <style>
-    :root {
-      --blue-dark: #0a1628;
-      --blue-mid: #0d2147;
-      --blue-line: #1e4a8a;
-      --blue-bright: #2563c7;
-      --cyan: #38bdf8;
-      --white-line: rgba(100, 180, 255, 0.18);
-    }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background-color: var(--blue-dark);
-      font-family: 'BDSans', sans-serif;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Blueprint grid background */
-    .blueprint-bg {
-      position: fixed;
-      inset: 0;
-      background-color: #0b1e3d;
-      background-image:
-        linear-gradient(var(--white-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--white-line) 1px, transparent 1px),
-        linear-gradient(rgba(100, 180, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(100, 180, 255, 0.06) 1px, transparent 1px);
-      background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
-      z-index: 0;
-    }
-
-    /* Radial glow in center */
-    .glow {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(37, 99, 199, 0.22) 0%, transparent 70%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Logo top center */
-    .logo-corner {
-      position: fixed;
-      top: 0.3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      pointer-events: none;
-    }
-
-    @media (max-width: 768px) {
-      .logo-corner {
-        top: 5.5rem;
-      }
-    }
-    .logo-corner img {
-      width: clamp(110px, 22vw, 180px);
-      height: clamp(110px, 22vw, 180px);
-      object-fit: contain;
-      opacity: 0.85;
-      filter: brightness(1.1);
-      border-radius: 50%;
-    }
-
-    /* Grain texture */
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-
-    .content {
-      position: relative;
-      z-index: 10;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      gap: 0;
-    }
-
-    .crane-container {
-      max-height: 38vh;
-      overflow: hidden;
-    }
-
-    /* Blueprint label corners */
-    .corner-label {
-      position: fixed;
-      font-family: 'BDSans', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      color: rgba(100, 180, 255, 0.35);
-      z-index: 5;
-    }
-    .corner-label.tl { top: 1.5rem; left: 1.5rem; }
-    .corner-label.tr { top: 1.5rem; right: 1.5rem; }
-    .corner-label.bl { bottom: 3rem; left: 1.5rem; }
-    .corner-label.br { bottom: 1.5rem; right: 1.5rem; }
-
-    /* Border frame */
-    .frame-border {
-      position: fixed;
-      inset: 1rem;
-      border: 1px solid rgba(100, 180, 255, 0.2);
-      z-index: 5;
-      pointer-events: none;
-    }
-    .frame-border::before {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border: 1px solid rgba(100, 180, 255, 0.08);
-    }
-
-    /* Crane SVG */
-    .crane-container {
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* Crane arm animation */
-    @keyframes sway {
-      0%, 100% { transform: rotate(-1deg); }
-      50%       { transform: rotate(1deg); }
-    }
-    @keyframes hang {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(6px); }
-    }
-    @keyframes blink {
-      0%, 90%, 100% { opacity: 1; }
-      95%            { opacity: 0.2; }
-    }
-
-    .crane-arm { transform-origin: 70px 120px; animation: sway 4s ease-in-out infinite; }
-    .crane-hook { animation: hang 4s ease-in-out infinite; }
-    .crane-light { animation: blink 3s ease-in-out infinite; }
-
-    /* Text styles */
-    .main-title {
-      font-family: 'SugoPro', sans-serif;
-      font-size: clamp(2.8rem, 8vw, 6.5rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
-      color: #e8f4ff;
-      text-shadow:
-        0 0 30px rgba(56, 189, 248, 0.5),
-        0 0 60px rgba(37, 99, 199, 0.3);
-    }
-
-    .sub-title {
-      font-family: 'BDSans', sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.6rem, 2vw, 1.25rem);
-      letter-spacing: 0.2em;
-      color: var(--cyan);
-      opacity: 0.75;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .body-text {
-      font-family: 'BDSans', sans-serif;
-      font-size: 1.2rem;
-      line-height: 1.7;
-      color: rgba(180, 215, 255, 0.65);
-      max-width: 480px;
-      text-align: center;
-    }
-
-    /* Progress bar */
-    .progress-track {
-      width: 100%;
-      max-width: 360px;
-      height: 4px;
-      background: rgba(56, 189, 248, 0.15);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 62%;
-      background: linear-gradient(90deg, #1e4a8a, #38bdf8);
-      border-radius: 2px;
-      position: relative;
-      animation: none;
-    }
-    .progress-fill::after {
-      content: '';
-      position: absolute;
-      right: 0; top: 0; bottom: 0;
-      width: 40px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6));
-      border-radius: 2px;
-    }
-    .progress-label {
-      font-family: 'BDSans', sans-serif;
-      font-weight: 700;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: rgba(56, 189, 248, 0.6);
-    }
-
-    /* Measurement lines (blueprint style) */
-    .measure-line {
-      position: absolute;
-      background: rgba(100, 180, 255, 0.25);
-      pointer-events: none;
-    }
-    .measure-h { height: 1px; width: 100px; }
-    .measure-v { width: 1px; height: 60px; }
-    .measure-dot {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: rgba(56, 189, 248, 0.5);
-      position: absolute;
-    }
-  </style>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AC TuCasa | Excelencia en Steel Framing Arquitectónico</title>
+<link rel="icon" type="image/webp" href="AC-TUCASA-01 a.webp"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://use.typekit.net/feh7sid.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-container": "#ebb2c5",
+                "on-tertiary-fixed-variant": "#643a4a",
+                "surface-container-highest": "#dfe3e5",
+                "tertiary-fixed-dim": "#f0b7cb",
+                "primary-container": "#044f97",
+                "outline": "#727782",
+                "tertiary-container": "#6e4253",
+                "on-surface-variant": "#424751",
+                "on-primary-container": "#9fc3ff",
+                "surface": "#f6fafc",
+                "secondary-fixed-dim": "#d0c2d6",
+                "on-primary-fixed": "#001b3c",
+                "inverse-primary": "#a7c8ff",
+                "on-background": "#171c1e",
+                "on-error-container": "#93000a",
+                "inverse-surface": "#2c3133",
+                "primary-fixed": "#d5e3ff",
+                "error": "#ba1a1a",
+                "surface-variant": "#dfe3e5",
+                "surface-container-low": "#f0f4f6",
+                "surface-container": "#eaeff1",
+                "outline-variant": "#c2c6d2",
+                "on-primary": "#ffffff",
+                "inverse-on-surface": "#edf1f3",
+                "on-secondary-fixed": "#201827",
+                "tertiary-fixed": "#ffd9e4",
+                "secondary": "#655b6b",
+                "on-tertiary": "#ffffff",
+                "surface-dim": "#d6dbdd",
+                "error-container": "#ffdad6",
+                "on-tertiary-fixed": "#32101f",
+                "secondary-fixed": "#ecdef2",
+                "on-surface": "#171c1e",
+                "primary": "#00386f",
+                "on-error": "#ffffff",
+                "surface-bright": "#f6fafc",
+                "primary-fixed-dim": "#a7c8ff",
+                "on-primary-fixed-variant": "#004689",
+                "on-secondary-fixed-variant": "#4d4353",
+                "background": "#f6fafc",
+                "secondary-container": "#e9dbef",
+                "tertiary": "#542c3c",
+                "surface-container-high": "#e4e9eb",
+                "on-secondary-container": "#695f70",
+                "surface-tint": "#235fa7"
+              },
+              fontFamily: {
+                "headline": ["Sugo Pro", "sans-serif"],
+                "body": ["coolvetica", "sans-serif"],
+                "label": ["coolvetica", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+              scale: { '102': '1.02' }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'coolvetica', sans-serif; }
+        @font-face {
+            font-family: 'Donovan Display';
+            src: url('Donovan.Display/Donovan Display Slim Medium.ttf') format('truetype');
+            font-weight: 500;
+        }
+        @font-face {
+            font-family: 'Donovan Display';
+            src: url('Donovan.Display/Donovan Display Slim Bold.ttf') format('truetype');
+            font-weight: 700;
+        }
+        @font-face {
+            font-family: 'Sugo Pro';
+            src: url('Sugo pro display/Sugo-Pro-Display-Light-trial.ttf') format('truetype');
+            font-weight: 300;
+        }
+        @font-face {
+            font-family: 'Sugo Pro';
+            src: url('Sugo pro display/Sugo-Pro-Display-Regular-trial.ttf') format('truetype');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'Sugo Pro';
+            src: url('Sugo pro display/Sugo-Pro-Display-Bold-trial.ttf') format('truetype');
+            font-weight: 700;
+        }
+        .hero-title, h1, h2, h3, h4, .font-headline { font-family: 'Sugo Pro', sans-serif; }
+        h2, h3, h4, .font-headline { font-weight: 300 !important; }
+        .hero-title { font-weight: 400 !important; }
+        .glass-nav {
+            background-color: rgba(4, 79, 151, 0.60);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+        }
+    </style>
 </head>
-<body>
-
-  <!-- Blueprint background layers -->
-  <div class="blueprint-bg"></div>
-  <div class="glow"></div>
-  <div class="logo-corner">
-    <img src="AC-TUCASA-01 a.jpg" alt="AC Tu Casa" />
-  </div>
-  <div class="grain"></div>
-  <div class="frame-border"></div>
-
-  <!-- Corner labels -->
-  <div class="corner-label tl">PLANO A-01 / REV.3</div>
-  <div class="corner-label tr">ESCALA 1:100</div>
-  <div class="corner-label bl">© 2026 — TODOS LOS DERECHOS RESERVADOS</div>
-  <div class="corner-label br">HOJA 1 DE 1</div>
-
-  <main class="content">
-
-    <!-- Crane SVG illustration (blueprint style) -->
-    <div class="crane-container mb-8">
-      <svg viewBox="0 0 700 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:700px;">
-
-        <!-- Measurement annotations -->
-        <line x1="40" y1="20" x2="40" y2="280" stroke="rgba(100,180,255,0.2)" stroke-width="0.5" stroke-dasharray="4 4"/>
-        <line x1="660" y1="20" x2="660" y2="280" stroke="rgba(100,180,255,0.2)" stroke-width="0.5" stroke-dasharray="4 4"/>
-        <line x1="30" y1="280" x2="670" y2="280" stroke="rgba(100,180,255,0.25)" stroke-width="0.5"/>
-        <text x="350" y="296" text-anchor="middle" fill="rgba(100,180,255,0.4)" font-family="monospace" font-size="8" letter-spacing="2">ELEVACIÓN FRONTAL</text>
-        <!-- Tick marks -->
-        <line x1="40" y1="280" x2="40" y2="273" stroke="rgba(100,180,255,0.4)" stroke-width="0.8"/>
-        <line x1="660" y1="280" x2="660" y2="273" stroke="rgba(100,180,255,0.4)" stroke-width="0.8"/>
-        <line x1="350" y1="280" x2="350" y2="275" stroke="rgba(100,180,255,0.3)" stroke-width="0.6"/>
-
-        <!-- ===================== CRANE 1 (left, big) ===================== -->
-        <g class="crane-arm">
-          <!-- Tower base -->
-          <rect x="68" y="200" width="24" height="60" fill="none" stroke="#2e6fc7" stroke-width="1.5"/>
-          <!-- Tower cross braces -->
-          <line x1="68" y1="200" x2="92" y2="230" stroke="#2e6fc7" stroke-width="0.8"/>
-          <line x1="92" y1="200" x2="68" y2="230" stroke="#2e6fc7" stroke-width="0.8"/>
-          <line x1="68" y1="230" x2="92" y2="260" stroke="#2e6fc7" stroke-width="0.8"/>
-          <line x1="92" y1="230" x2="68" y2="260" stroke="#2e6fc7" stroke-width="0.8"/>
-          <!-- Tower top cap -->
-          <rect x="64" y="194" width="32" height="8" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
-          <!-- Horizontal jib (long arm) -->
-          <line x1="80" y1="198" x2="280" y2="180" stroke="#38bdf8" stroke-width="2"/>
-          <!-- Counter-jib (back arm) -->
-          <line x1="80" y1="198" x2="30" y2="205" stroke="#2e6fc7" stroke-width="1.5"/>
-          <!-- Mast peak -->
-          <line x1="80" y1="198" x2="80" y2="160" stroke="#38bdf8" stroke-width="1.2"/>
-          <polygon points="80,152 74,165 86,165" fill="none" stroke="#38bdf8" stroke-width="1"/>
-          <!-- Cable from peak to jib tip -->
-          <line x1="80" y1="160" x2="280" y2="180" stroke="rgba(56,189,248,0.5)" stroke-width="0.8" stroke-dasharray="3 3"/>
-          <!-- Cable from peak to counter-jib -->
-          <line x1="80" y1="160" x2="30" y2="205" stroke="rgba(56,189,248,0.4)" stroke-width="0.8" stroke-dasharray="3 3"/>
-          <!-- Counterweight -->
-          <rect x="22" y="203" width="16" height="10" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
-          <!-- Warning light -->
-          <circle cx="80" cy="152" r="3" fill="#38bdf8" opacity="0.9" class="crane-light"/>
-        </g>
-
-        <!-- Hanging hook crane 1 -->
-        <g class="crane-hook">
-          <line x1="200" y1="183" x2="200" y2="230" stroke="rgba(56,189,248,0.6)" stroke-width="0.8"/>
-          <!-- Hook shape -->
-          <path d="M197 230 Q197 240 205 240 Q213 240 213 232" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
-          <!-- Load block -->
-          <rect x="193" y="218" width="14" height="10" fill="none" stroke="#2e6fc7" stroke-width="1"/>
-          <!-- Pulley -->
-          <circle cx="200" cy="215" r="4" fill="none" stroke="#38bdf8" stroke-width="1"/>
-          <!-- Hanging load (box) -->
-          <rect x="185" y="242" width="30" height="20" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
-          <line x1="185" y1="242" x2="215" y2="262" stroke="rgba(56,189,248,0.3)" stroke-width="0.6"/>
-          <line x1="215" y1="242" x2="185" y2="262" stroke="rgba(56,189,248,0.3)" stroke-width="0.6"/>
-          <line x1="185" y1="242" x2="200" y2="218" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-          <line x1="215" y1="242" x2="200" y2="218" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-        </g>
-
-        <!-- ===================== CRANE 2 (right, smaller) ===================== -->
-        <g>
-          <!-- Tower base -->
-          <rect x="540" y="210" width="20" height="50" fill="none" stroke="#2e6fc7" stroke-width="1.2"/>
-          <!-- Tower cross braces -->
-          <line x1="540" y1="210" x2="560" y2="235" stroke="#2e6fc7" stroke-width="0.7"/>
-          <line x1="560" y1="210" x2="540" y2="235" stroke="#2e6fc7" stroke-width="0.7"/>
-          <line x1="540" y1="235" x2="560" y2="260" stroke="#2e6fc7" stroke-width="0.7"/>
-          <line x1="560" y1="235" x2="540" y2="260" stroke="#2e6fc7" stroke-width="0.7"/>
-          <!-- Tower top cap -->
-          <rect x="536" y="205" width="28" height="6" fill="none" stroke="#38bdf8" stroke-width="1"/>
-          <!-- Horizontal jib -->
-          <line x1="550" y1="208" x2="660" y2="195" stroke="#38bdf8" stroke-width="1.8"/>
-          <!-- Counter-jib -->
-          <line x1="550" y1="208" x2="510" y2="213" stroke="#2e6fc7" stroke-width="1.2"/>
-          <!-- Mast peak -->
-          <line x1="550" y1="208" x2="550" y2="176" stroke="#38bdf8" stroke-width="1"/>
-          <polygon points="550,168 545,178 555,178" fill="none" stroke="#38bdf8" stroke-width="0.9"/>
-          <!-- Cables -->
-          <line x1="550" y1="176" x2="660" y2="195" stroke="rgba(56,189,248,0.4)" stroke-width="0.7" stroke-dasharray="3 3"/>
-          <line x1="550" y1="176" x2="510" y2="213" stroke="rgba(56,189,248,0.3)" stroke-width="0.7" stroke-dasharray="3 3"/>
-          <!-- Counterweight -->
-          <rect x="504" y="211" width="12" height="8" fill="none" stroke="#38bdf8" stroke-width="1"/>
-          <!-- Warning light -->
-          <circle cx="550" cy="168" r="2.5" fill="#38bdf8" opacity="0.9" class="crane-light" style="animation-delay:1.5s"/>
-          <!-- Hook & cable crane 2 -->
-          <line x1="610" y1="196" x2="610" y2="235" stroke="rgba(56,189,248,0.5)" stroke-width="0.7"/>
-          <circle cx="610" cy="228" r="3" fill="none" stroke="#38bdf8" stroke-width="1"/>
-          <path d="M608 231 Q608 239 614 239 Q620 239 620 233" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
-        </g>
-
-        <!-- ===================== BUILDING UNDER CONSTRUCTION ===================== -->
-        <!-- Foundation -->
-        <rect x="300" y="252" width="180" height="8" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
-        <!-- Floor levels -->
-        <rect x="308" y="220" width="164" height="32" fill="none" stroke="#2e6fc7" stroke-width="1"/>
-        <rect x="316" y="188" width="148" height="32" fill="none" stroke="#2e6fc7" stroke-width="1"/>
-        <rect x="324" y="156" width="132" height="32" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="1" stroke-dasharray="4 3"/>
-        <!-- Columns floor 1 -->
-        <line x1="330" y1="220" x2="330" y2="252" stroke="#2e6fc7" stroke-width="1.2"/>
-        <line x1="390" y1="220" x2="390" y2="252" stroke="#2e6fc7" stroke-width="1.2"/>
-        <line x1="450" y1="220" x2="450" y2="252" stroke="#2e6fc7" stroke-width="1.2"/>
-        <!-- Windows floor 1 -->
-        <rect x="340" y="226" width="20" height="14" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-        <rect x="400" y="226" width="20" height="14" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-        <!-- Columns floor 2 -->
-        <line x1="338" y1="188" x2="338" y2="220" stroke="#2e6fc7" stroke-width="1.2"/>
-        <line x1="390" y1="188" x2="390" y2="220" stroke="#2e6fc7" stroke-width="1.2"/>
-        <line x1="442" y1="188" x2="442" y2="220" stroke="#2e6fc7" stroke-width="1.2"/>
-        <!-- Windows floor 2 -->
-        <rect x="350" y="194" width="18" height="12" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-        <rect x="402" y="194" width="18" height="12" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="0.8"/>
-        <!-- Floor 3 (in progress - scaffolding style) -->
-        <line x1="346" y1="156" x2="346" y2="188" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
-        <line x1="390" y1="156" x2="390" y2="188" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
-        <line x1="434" y1="156" x2="434" y2="188" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
-        <!-- Scaffolding planks -->
-        <line x1="324" y1="170" x2="456" y2="170" stroke="rgba(56,189,248,0.3)" stroke-width="1.5"/>
-        <!-- Scaffolding poles -->
-        <line x1="324" y1="156" x2="324" y2="188" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
-        <line x1="456" y1="156" x2="456" y2="188" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
-
-        <!-- Dimension annotations -->
-        <line x1="300" y1="140" x2="480" y2="140" stroke="rgba(100,180,255,0.25)" stroke-width="0.5"/>
-        <line x1="300" y1="136" x2="300" y2="145" stroke="rgba(100,180,255,0.35)" stroke-width="0.8"/>
-        <line x1="480" y1="136" x2="480" y2="145" stroke="rgba(100,180,255,0.35)" stroke-width="0.8"/>
-        <text x="390" y="136" text-anchor="middle" fill="rgba(100,180,255,0.4)" font-family="monospace" font-size="7" letter-spacing="1">24.00 m</text>
-
-        <!-- Height annotation -->
-        <line x1="492" y1="156" x2="492" y2="260" stroke="rgba(100,180,255,0.25)" stroke-width="0.5"/>
-        <line x1="488" y1="156" x2="497" y2="156" stroke="rgba(100,180,255,0.35)" stroke-width="0.8"/>
-        <line x1="488" y1="260" x2="497" y2="260" stroke="rgba(100,180,255,0.35)" stroke-width="0.8"/>
-        <text x="500" y="210" fill="rgba(100,180,255,0.4)" font-family="monospace" font-size="7" letter-spacing="1">12.00 m</text>
-
-        <!-- Ground line -->
-        <line x1="40" y1="260" x2="660" y2="260" stroke="rgba(100,180,255,0.3)" stroke-width="1.5"/>
-        <!-- Ground hatch -->
-        <line x1="40" y1="265" x2="50" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="60" y1="265" x2="70" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="80" y1="265" x2="90" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="100" y1="265" x2="110" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="120" y1="265" x2="130" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="140" y1="265" x2="150" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="160" y1="265" x2="170" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="180" y1="265" x2="190" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="200" y1="265" x2="210" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="220" y1="265" x2="230" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="240" y1="265" x2="250" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="260" y1="265" x2="270" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="280" y1="265" x2="290" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="300" y1="265" x2="310" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="440" y1="265" x2="450" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="460" y1="265" x2="470" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="480" y1="265" x2="490" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="500" y1="265" x2="510" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="520" y1="265" x2="530" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="540" y1="265" x2="550" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="560" y1="265" x2="570" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="580" y1="265" x2="590" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="600" y1="265" x2="610" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="620" y1="265" x2="630" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-        <line x1="640" y1="265" x2="650" y2="275" stroke="rgba(100,180,255,0.2)" stroke-width="0.7"/>
-      </svg>
-    </div>
-
-    <!-- Text block -->
-    <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
-      <p class="sub-title">— proyecto en progreso —</p>
-      <h1 class="main-title" style="text-align:center;">
-        SITIO WEB<br/>EN CONSTRUCCIÓN
-      </h1>
-      <p class="body-text" style="margin-top:0.5rem;">
-        Estamos trabajando para traerte algo increíble.<br/>Volvé pronto. <span style="font-size:0.75em;">🤍</span>
-      </p>
-
-      <!-- Progress bar -->
-      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; margin-top:1.5rem; width:100%; max-width:360px;">
-        <div style="display:flex; justify-content:space-between; width:100%;">
-          <span class="progress-label">PROGRESO</span>
-          <span class="progress-label">62%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill"></div>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-</body>
-</html>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav">
+<div class="max-w-screen-2xl mx-auto px-8 py-0 flex justify-between items-center">
+<a href="index_site.html"><div class="h-20 w-20 overflow-hidden flex-shrink-0" style="border-radius:9999px;"><img alt="AC TuCasa" class="w-full h-full object-contain" src="tu-casa-logo.webp"/></div></a>
+<div class="hidden md:flex items-center gap-10" style="font-family:'coolvetica',sans-serif;font-weight:500;">
+<a class="text-white border-b-2 border-white pb-1" href="index_site.html">Inicio</a>
+<a class="text-white/80 hover:text-white transition-colors" href="proyectos.html">Proyectos</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#proceso">Proceso</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#contacto">Contacto</a>
+</div>
+<a href="#contacto"><button class="px-6 py-2.5 rounded-md font-headline font-semibold text-sm hover:scale-102 transition-transform duration-200" style="background-color:#d5e3fc;color:#00386f;">Cotizar</button></a>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[500px] lg:min-h-[921px] flex items-center px-8 max-w-screen-2xl mx-auto overflow-hidden">
+<!-- Fondo mobile: imagen con overlay -->
+<div class="absolute inset-0 lg:hidden">
+<img alt="" class="w-full h-full object-cover" src="viviendazoom.webp"/>
+<div class="absolute inset-0 bg-white/60"></div>
+</div>
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="z-10 relative">
+<span class="font-headline font-bold tracking-widest text-xs uppercase mb-6 block" style="color:#044f97;">Excelencia en Steel Framing</span>
+<h1 class="hero-title text-7xl md:text-9xl font-normal text-primary leading-[0.85] tracking-tighter mb-8">
+                        CONSTRUIMOS<br/> TUS SUEÑOS
+                    </h1>
+<p class="text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+                        Creamos unidades modulares transportables, duraderas, sostenibles y personalizables para cada necesidad.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<a href="proyectos.html" class="group inline-flex items-center gap-2 font-headline font-bold text-lg text-primary border-2 border-primary px-6 py-3 rounded-md hover:bg-primary hover:text-white transition-colors duration-200">
+                            Ver proyectos
+                            <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 group-active:translate-x-4">→</span>
+</a>
+</div>
+</div>
+<div class="hidden lg:block relative h-[600px] w-full">
+<div class="absolute inset-0 bg-primary-container/10 rounded-xl -rotate-2 scale-105"></div>
+<img alt="Modular Living" class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl z-0" src="viviendazoom.webp"/>
+</div>
+</div>
+</section>
+<!-- Expertise Section: The Bento Grid -->
+<section class="py-10 px-8 bg-surface-container-low">
+<div class="max-w-screen-2xl mx-auto">
+<div class="mb-8 max-w-3xl">
+<h2 class="text-5xl font-bold text-primary mb-6 tracking-tight">nuestros proyectos modulares</h2>
+<p class="text-lg text-on-surface-variant">Fabricamos cada módulo luego de un riguroso estudio del lugar de emplazamiento para que cada proyecto sea único, además de personalizar materialidades de terminaciones y colores.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-1">
+<!-- Modern Homes -->
+<div class="md:col-span-8 group relative overflow-hidden h-[500px] bg-surface-container-lowest">
+<img alt="viviendas residenciales" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="viviendazoom.webp"/>
+<img alt="viviendas residenciales zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="vivienda.webp"/>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-3xl font-normal font-headline mb-2">viviendas residenciales</h3>
+<p class="max-w-md opacity-90">Declaraciones arquitectónicas construidas para la longevidad y el confort modular de lujo.</p>
+</div>
+</div>
+<!-- Private Studios -->
+<div class="md:col-span-4 group relative overflow-hidden h-[500px] bg-tertiary">
+<img alt="ampliaciones" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="IMG_3097.webp"/>
+<img alt="ampliaciones zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="IMG_6498.webp"/>
+<div class="absolute inset-0 flex flex-col justify-end p-10">
+<h3 class="text-3xl font-normal font-headline text-on-tertiary mb-2">ampliaciones</h3>
+<p class="text-on-tertiary/80">Módulos que generan integración en estructuras existentes para ampliaciones y segundo piso.</p>
+</div>
+</div>
+<!-- Oficinas -->
+<div class="md:col-span-6 group relative overflow-hidden h-[400px]">
+<img alt="oficinas" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="IMG_1611.webp"/>
+<img alt="oficinas zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="ofizoom.webp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-4xl font-normal font-headline mb-2">oficinas</h3>
+<p class="text-white/80 text-lg max-w-lg">Escala tu negocio con espacios profesionales de despliegue rápido que se adaptan a tu crecimiento.</p>
+</div>
+</div>
+<!-- Estructuras de hierro -->
+<div class="md:col-span-6 group relative overflow-hidden h-[400px]">
+<img alt="estructuras de hierro" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0 group-[.tapped]:opacity-0" src="estructura.webp"/>
+<img alt="estructuras de hierro zoom" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-[.tapped]:opacity-100" src="estructurazoom.webp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-4xl font-normal font-headline mb-2">estructuras de hierro</h3>
+<p class="text-white/80 text-lg max-w-lg">Soluciones estructurales en acero de alta resistencia, diseñadas para proyectos que exigen precisión, durabilidad y adaptabilidad a cualquier escala.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Steel Framing Section: Structural Integrity -->
+<section class="py-10 px-8 bg-surface">
+<div class="max-w-screen-2xl mx-auto">
+<!-- Título centrado -->
+<div class="text-center mb-6">
+<h2 class="text-4xl font-bold text-primary tracking-tighter">¿por qué elegir steel frame?</h2>
+</div>
+<div class="w-16 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-on-surface-variant text-lg text-center max-w-2xl mx-auto mb-10">El steel framing redefine la construcción moderna: precisión milimétrica, menor desperdicio y durabilidad incomparable.<br/>Soluciones de acero estructural diseñadas para construir mejor, más rápido y con décadas de vida útil garantizada.</p>
+<!-- 3 tarjetas -->
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Tarjeta 1 -->
+<div class="rounded-xl overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow">
+<div class="flex items-center gap-3 p-4 md:px-4 md:py-0 md:shrink-0 md:justify-center" style="background-color:#f59e0b;">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="bolt">bolt</span>
+<h3 class="text-xl font-bold font-headline text-white md:hidden flex-1 text-center">Construcción rápida</h3>
+</div>
+<div class="bg-surface-container-low p-6 flex-1">
+<h3 class="text-xl font-bold font-headline mb-3 hidden md:block">Construcción rápida</h3>
+<p class="text-on-surface-variant">Los perfiles llegan prefabricados a obra. Reducimos hasta un 40% los tiempos frente a construcción tradicional con hormigón y ladrillos.</p>
+</div>
+</div>
+<!-- Tarjeta 2 -->
+<div class="rounded-xl overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow">
+<div class="flex items-center gap-3 p-4 md:px-4 md:py-0 md:shrink-0 md:justify-center" style="background-color:#044f97;">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="security">security</span>
+<h3 class="text-xl font-bold font-headline text-white md:hidden flex-1 text-center">Durabilidad superior</h3>
+</div>
+<div class="bg-surface-container-low p-6 flex-1">
+<h3 class="text-xl font-bold font-headline mb-3 hidden md:block">Durabilidad superior</h3>
+<p class="text-on-surface-variant">Acero galvanizado con protección anticorrosión que garantiza más de 50 años de vida estructural, resistente a sismos, viento e insectos.</p>
+</div>
+</div>
+<!-- Tarjeta 3 -->
+<div class="rounded-xl overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow">
+<div class="flex items-center gap-3 p-4 md:px-4 md:py-0 md:shrink-0 md:justify-center" style="background-color:#16a34a;">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="eco">eco</span>
+<h3 class="text-xl font-bold font-headline text-white md:hidden flex-1 text-center">Construcción sustentable</h3>
+</div>
+<div class="bg-surface-container-low p-6 flex-1">
+<h3 class="text-xl font-bold font-headline mb-3 hidden md:block">Construcción sustentable</h3>
+<p class="text-on-surface-variant">El acero es 100% reciclable. Menor generación de escombros en obra y mayor eficiencia energética en el edificio terminado.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Proceso Section -->
+<section id="proceso" class="py-10 px-8 bg-surface-container-low">
+<div class="max-w-screen-2xl mx-auto">
+<!-- Label -->
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-0.5 bg-primary"></div>
+<span class="text-primary font-headline font-bold tracking-widest text-xs uppercase">Cómo trabajamos</span>
+</div>
+<!-- Título -->
+<h2 class="text-5xl font-bold text-on-surface tracking-tighter mb-4">proceso de <span class="text-primary">trabajo</span></h2>
+<p class="text-on-surface-variant text-lg max-w-lg mb-10">Un flujo claro y transparente, con comunicación en cada etapa para que siempre sepas el estado de tu proyecto.</p>
+<!-- Timeline -->
+<div class="relative">
+<!-- Línea conectora -->
+<div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-primary/30"></div>
+<!-- Pasos -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<!-- Paso 01 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-lg mb-4 relative z-10" style="font-family:Arial,Helvetica,sans-serif; font-weight:700; font-style:normal;">01</div>
+<h3 class="font-headline font-normal text-on-surface mb-3">Consulta inicial</h3>
+<p class="text-on-surface-variant text-sm">Reunión técnica para entender tu proyecto, terreno y necesidades. Sin costo, sin compromiso.</p>
+</div>
+<!-- Paso 02 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-lg mb-4 relative z-10" style="font-family:Arial,Helvetica,sans-serif; font-weight:700; font-style:normal;">02</div>
+<h3 class="font-headline font-normal text-on-surface mb-3">Diseño y presupuesto</h3>
+<p class="text-on-surface-variant text-sm">Diseñamos planos al milímetro y elaboramos el presupuesto acorde al método de pago que más se adapte al cliente.</p>
+</div>
+<!-- Paso 03 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-lg mb-4 relative z-10" style="font-family:Arial,Helvetica,sans-serif; font-weight:700; font-style:normal;">03</div>
+<h3 class="font-headline font-normal text-on-surface mb-3">Producción</h3>
+<p class="text-on-surface-variant text-sm">Construimos tu proyecto con todos los materiales necesarios previamente acopiados en nuestro lugar de fabricación y control de calidad en cada etapa.</p>
+</div>
+<!-- Paso 04 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-lg mb-4 relative z-10" style="font-family:Arial,Helvetica,sans-serif; font-weight:700; font-style:normal;">04</div>
+<h3 class="font-headline font-normal text-on-surface mb-3">Instalación y entrega</h3>
+<p class="text-on-surface-variant text-sm">Coordinamos el traslado con nuestro transporte de confianza e instalamos la estructura, realizamos los ajustes finales y te entregamos el proyecto listo para usar.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-10 bg-primary overflow-hidden relative">
+<div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+<div class="grid lg:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="text-5xl font-light text-on-primary mb-8 tracking-tight font-headline">nuestro equipo</h2>
+<p class="text-xl text-primary-fixed/80 mb-8 leading-relaxed">
+                            AC TuCasa nació de una visión para revolucionar la forma en que habitamos los espacios. Aplicando la tecnología del Steel Frame con su alto confort térmico y la eficiencia en construcción.
+                        </p>
+<p class="text-xl text-primary-fixed/80 mb-10 leading-relaxed">
+                            Nuestro compromiso con la calidad garantiza que cada unidad modular cumpla con los requisitos de sus propietarios, brindando un entorno de vida seguro, eficiente y sofisticado.
+                        </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="rounded-lg shadow-xl overflow-hidden relative" style="height:280px;">
+<img alt="AC TuCasa construcción" class="absolute inset-0 w-full h-full object-cover" style="width:100%; height:100%; top:0; left:0; object-fit:cover; position:absolute;" src="IMG_7982.webp"/>
+</div>
+<div class="rounded-lg shadow-xl overflow-hidden relative" style="height:280px;">
+<img alt="AC TuCasa proyecto" class="absolute inset-0 w-full h-full object-cover" style="width:100%; height:100%; top:0; left:0; object-fit:cover; position:absolute;" src="CFDC03EE-C977-47D9-A821-FA48286677AC.webp"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Background abstraction -->
+<div class="absolute top-0 right-0 w-1/3 h-full bg-surface-tint opacity-10 -skew-x-12 transform translate-x-24"></div>
+</section>
+<!-- Contact Section -->
+<section id="contacto" class="py-10 px-8 max-w-screen-2xl mx-auto">
+<div class="bg-surface-container-low rounded-xl p-12 md:p-24 grid md:grid-cols-2 gap-16 items-start">
+<div>
+<h2 class="text-5xl font-bold text-primary mb-6 tracking-tighter">¿listo para construir?</h2>
+<p class="text-lg text-on-surface-variant mb-12">Conecta con nuestros consultores arquitectónicos para hablar de tu proyecto personalizado hoy.</p>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+<span class="font-medium">ac-tucasa@hotmail.com</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="phone">phone</span>
+<span class="font-medium">+54 9 2932 578585</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+<span class="font-medium">Villa Gral. Arias, Provincia de Buenos Aires</span>
+</div>
+</div>
+<div class="mt-6 rounded-xl overflow-hidden" style="height:180px;">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3109.952882805977!2d-62.11554152320779!3d-38.787714490328334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95ed9f0024d8159b%3A0x10dad2e60a38986a!2sAC%20TuCasa!5e0!3m2!1ses!2sar!4v1776125299251!5m2!1ses!2sar" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+</div>
+<form id="contact-form" class="space-y-6">
+<div>
+<label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Nombre Completo</label>
+<input name="from_name" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="Nicolás Ferreyra" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Número de Teléfono</label>
+<input name="phone" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="+54 9 2932 000000" type="tel"/>
+</div>
+<div>
+<label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Correo Electrónico</label>
+<input name="from_email" id="email-input" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="juan@ejemplo.com" type="email" oninput="document.getElementById('email-hidden').value=this.value"/>
+<input type="hidden" name="email" id="email-hidden"/>
+</div>
+<div>
+<label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Tipo de Proyecto</label>
+<select name="project_type" id="tipo-proyecto" onchange="toggleOtro(this.value)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm text-on-surface-variant appearance-none cursor-pointer">
+  <option value="" disabled selected>Seleccioná una opción</option>
+  <option value="Estructura de hierro">Estructura de hierro</option>
+  <option value="Obra in situ">Obra in situ</option>
+  <option value="Módulo">Módulo</option>
+  <option value="Otro">Otro</option>
+</select>
+<div id="otro-field" class="mt-3 hidden">
+  <input name="other_project" type="text" maxlength="20" placeholder="Describí tu proyecto (máx. 20 caracteres)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm"/>
+</div>
+</div>
+<div id="form-msg" class="hidden text-sm font-medium py-3 px-4 rounded-md"></div>
+<button type="submit" id="submit-btn" class="w-full bg-primary text-on-primary py-5 rounded-md font-headline font-bold text-lg hover:bg-primary-container transition-colors shadow-lg">Enviar Consulta</button>
+</form>
+<script>
+function toggleOtro(val) {
+  document.getElementById('otro-field').classList.toggle('hidden', val !== 'Otro');
+}
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const msg = document.getElementById('form-msg');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  const data = {
+    from_name:     this.from_name.value,
+    phone:         this.phone.value,
+    from_email:    this.from_email.value,
+    project_type:  this.project_type.value,
+    other_project: this.other_project ? this.other_project.value : '',
+  };
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      msg.className = 'text-sm font-medium py-3 px-4 rounded-md bg-green-100 text-green-800';
+      msg.textContent = '¡Consulta enviada! Te contactamos pronto.';
+      msg.classList.remove('hidden');
+      this.reset();
+      document.getElementById('otro-field').classList.add('hidden');
+    } else {
+      throw new Error('Error del servidor');
+    }
+  } catch {
+    msg.className = 'text-sm font-medium py-3 px-4 rounded-md bg-red-100 text-red-800';
+    msg.textContent = 'Error al enviar. Escribinos a ac-tucasa@hotmail.com';
+    msg.classList.remove('hidden');
+  }
+  btn.textContent = 'Enviar Consulta';
+  btn.disabled = false;
+});
+</script>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 border-t border-slate-200/15">
+<div class="w-full py-12 px-8 grid grid-cols-1 md:grid-cols-4 gap-8 max-w-screen-2xl mx-auto">
+<div class="md:col-span-1">
+<div class="text-xl font-bold text-blue-900 mb-4 font-headline tracking-tighter">AC TuCasa</div>
+<p class="text-slate-500 text-sm font-body leading-relaxed">
+                    © 2004 AC TuCasa. <br/>Excelencia en Steel Framing Arquitectónico.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-blue-900 text-sm tracking-widest mb-2">Proyectos</h4>
+<a class="text-slate-500 hover:text-blue-900 text-sm transition-colors" href="proyectos.html">Residencial</a>
+<a class="text-slate-500 hover:text-blue-900 text-sm transition-colors" href="proyectos.html">Sustentabilidad</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-blue-900 text-sm tracking-widest mb-2">Empresa</h4>
+<a class="text-slate-500 hover:text-blue-900 text-sm transition-colors" href="#">Política de Privacidad</a>
+<a class="text-slate-500 hover:text-blue-900 text-sm transition-colors" href="#">Términos de Servicio</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-blue-900 text-sm tracking-widest mb-2">Conectar</h4>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors" data-icon="share">share</span>
+<!-- Facebook -->
+<a href="https://www.facebook.com/ac.tucasa.construcciones" target="_blank" class="text-slate-400 hover:text-primary transition-colors" aria-label="Facebook">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.522-4.478-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+</a>
+<!-- Instagram -->
+<a href="https://www.instagram.com/ac.tucasa/" target="_blank" class="text-slate-400 hover:text-primary transition-colors" aria-label="Instagram">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.583-.07 4.85c-.054 1.17-.249 1.805-.413 2.227a3.7 3.7 0 0 1-.896 1.381 3.7 3.7 0 0 1-1.382.896c-.422.166-1.057.36-2.227.415-1.266.057-1.645.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.055-1.805-.249-2.227-.415a3.7 3.7 0 0 1-1.381-.896 3.7 3.7 0 0 1-.896-1.381c-.165-.422-.36-1.057-.413-2.227C2.175 15.583 2.163 15.204 2.163 12s.012-3.584.07-4.85c.053-1.17.248-1.805.413-2.227a3.7 3.7 0 0 1 .896-1.381 3.7 3.7 0 0 1 1.381-.896c.422-.166 1.057-.36 2.227-.413C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.775.131 4.902.333 4.14.63a5.86 5.86 0 0 0-2.126 1.384A5.86 5.86 0 0 0 .63 4.14C.333 4.902.131 5.775.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.059 1.277.261 2.15.558 2.912a5.86 5.86 0 0 0 1.384 2.126A5.86 5.86 0 0 0 4.14 23.37c.762.297 1.635.499 2.912.558C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.277-.059 2.15-.261 2.912-.558a5.86 5.86 0 0 0 2.126-1.384 5.86 5.86 0 0 0 1.384-2.126c.297-.762.499-1.635.558-2.912C23.986 15.668 24 15.259 24 12s-.014-3.668-.072-4.948c-.059-1.277-.261-2.15-.558-2.912a5.86 5.86 0 0 0-1.384-2.126A5.86 5.86 0 0 0 19.86.63C19.098.333 18.225.131 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+</a>
+<!-- Pinterest -->
+<a href="https://pin.it/4VcQ75FRy" target="_blank" class="text-slate-400 hover:text-primary transition-colors" aria-label="Pinterest">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+</a>
+</div>
+<p class="text-slate-500 text-xs mt-4">Suscríbete a nuestro newsletter para lo último en arquitectura modular.</p>
+<div class="flex">
+<input class="bg-slate-200/50 border-none text-xs p-2 w-full rounded-l-md" placeholder="Email" type="email"/>
+<button class="bg-primary text-white p-2 rounded-r-md"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</footer>
+<script>
+  document.querySelectorAll('.group').forEach(card => {
+    card.addEventListener('touchstart', () => {
+      card.classList.toggle('tapped');
+    }, { passive: true });
+  });
+</script>
+</body></html>
