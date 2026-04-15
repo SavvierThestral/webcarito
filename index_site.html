@@ -126,9 +126,48 @@
 <a class="text-white/80 hover:text-white transition-colors" href="#proceso">Proceso</a>
 <a class="text-white/80 hover:text-white transition-colors" href="#contacto">Contacto</a>
 </div>
-<a href="#contacto"><button class="px-6 py-2.5 rounded-md font-headline font-semibold text-sm hover:scale-102 transition-transform duration-200" style="background-color:#d5e3fc;color:#00386f;">Cotizar</button></a>
+<div class="flex items-center gap-3">
+<a href="#contacto"><button class="px-6 py-2.5 rounded-md text-sm font-bold tracking-wide" style="background-color:#d5e3fc;color:#00386f;font-family:'coolvetica',sans-serif;font-size:1rem;">Cotizar</button></a>
+<button id="burger-btn" class="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-md" onclick="toggleMenu()" style="background:rgba(255,255,255,0.1);">
+  <span class="burger-line block w-5 h-0.5 bg-white rounded-full" style="transition:transform 0.3s,opacity 0.3s;"></span>
+  <span class="burger-line block w-5 h-0.5 bg-white rounded-full" style="transition:transform 0.3s,opacity 0.3s;"></span>
+  <span class="burger-line block w-5 h-0.5 bg-white rounded-full" style="transition:transform 0.3s,opacity 0.3s;"></span>
+</button>
+</div>
+</div>
+<!-- Mobile menu -->
+<div id="mobile-menu" style="display:none;background:rgba(4,79,151,0.97);backdrop-filter:blur(20px);padding:8px 32px 24px;flex-direction:column;gap:16px;">
+  <a class="text-white py-2 border-b border-white/10" href="index_site.html" style="font-family:'coolvetica',sans-serif;">Inicio</a>
+  <a class="text-white/80 py-2 border-b border-white/10" href="proyectos.html" style="font-family:'coolvetica',sans-serif;">Proyectos</a>
+  <a class="text-white/80 py-2 border-b border-white/10" href="#proceso" onclick="closeMenu()" style="font-family:'coolvetica',sans-serif;">Proceso</a>
+  <a class="text-white/80 py-2" href="#contacto" onclick="closeMenu()" style="font-family:'coolvetica',sans-serif;">Contacto</a>
+  <a href="#contacto" onclick="closeMenu()"><button class="w-full mt-2 py-3 rounded-md font-bold text-base" style="background-color:#d5e3fc;color:#00386f;font-family:'coolvetica',sans-serif;">Cotizar</button></a>
 </div>
 </nav>
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const isOpen = menu.style.display === 'flex';
+  menu.style.display = isOpen ? 'none' : 'flex';
+  const lines = document.querySelectorAll('.burger-line');
+  if (!isOpen) {
+    lines[0].style.transform = 'translateY(8px) rotate(45deg)';
+    lines[1].style.opacity = '0';
+    lines[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+  } else {
+    lines[0].style.transform = '';
+    lines[1].style.opacity = '1';
+    lines[2].style.transform = '';
+  }
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').style.display = 'none';
+  const lines = document.querySelectorAll('.burger-line');
+  lines[0].style.transform = '';
+  lines[1].style.opacity = '1';
+  lines[2].style.transform = '';
+}
+</script>
 <main class="pt-20">
 <!-- Hero Section -->
 <section class="relative min-h-[500px] lg:min-h-[921px] flex items-center px-8 max-w-screen-2xl mx-auto overflow-hidden">
