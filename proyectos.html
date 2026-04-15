@@ -18,8 +18,8 @@
     .project-card img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
     .project-card:hover img { transform:scale(1.07); }
     .project-card .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%); }
-    .project-card .card-title { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; text-align:center; padding:16px; color:white; font-family:'Sugo Pro', sans-serif; font-weight:400; font-size:3.5rem; text-transform:uppercase; letter-spacing:0.04em; line-height:1.1; }
-    #lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.97); flex-direction:column; }
+    .project-card .card-title { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; text-align:center; padding:16px; color:white; font-family:'Sugo Pro', sans-serif; font-weight:400; font-size:2rem; text-transform:uppercase; letter-spacing:0.04em; line-height:1.1; }
+    #lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(255,255,255,0.92); backdrop-filter:blur(20px) saturate(180%); -webkit-backdrop-filter:blur(20px) saturate(180%); flex-direction:column; }
     #lightbox.open { display:flex; }
 
     /* Main photo */
@@ -27,15 +27,15 @@
     #lb-main-img { max-width:100%; max-height:100%; object-fit:contain; user-select:none; transition:opacity 0.2s ease; }
 
     /* Arrows */
-    .lb-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:2rem; width:48px; height:48px; border-radius:9999px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:background 0.2s; z-index:10; }
-    .lb-arrow:hover { background:rgba(255,255,255,0.28); }
+    .lb-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.08); border:none; color:#00386f; font-size:2rem; width:48px; height:48px; border-radius:9999px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:background 0.2s; z-index:10; }
+    .lb-arrow:hover { background:rgba(0,0,0,0.15); }
     #lb-prev { left:12px; }
     #lb-next { right:12px; }
 
     /* Dots */
     #lb-dots { display:flex; justify-content:center; align-items:center; gap:6px; padding:10px 0 8px; flex-shrink:0; }
-    .lb-dot { width:7px; height:7px; border-radius:9999px; background:rgba(255,255,255,0.3); transition:background 0.2s, width 0.2s; cursor:pointer; flex-shrink:0; }
-    .lb-dot.active { background:white; width:20px; }
+    .lb-dot { width:7px; height:7px; border-radius:9999px; background:rgba(0,56,111,0.25); transition:background 0.2s, width 0.2s; cursor:pointer; flex-shrink:0; }
+    .lb-dot.active { background:#00386f; width:20px; }
 
     /* Thumbnails strip */
     #lb-thumbs { display:flex; gap:6px; overflow-x:auto; padding:0 12px 14px; flex-shrink:0; scrollbar-width:none; }
@@ -55,11 +55,11 @@
 <!-- Lightbox modal -->
 <div id="lightbox">
   <!-- Header -->
-  <div class="flex justify-between items-center px-5 py-3 flex-shrink-0" style="background:rgba(0,0,0,0.5);backdrop-filter:blur(12px);">
-    <h2 id="lb-title" class="text-white text-2xl" style="font-family:'Sugo Pro',sans-serif;font-weight:300;"></h2>
+  <div class="flex justify-between items-center px-5 py-3 flex-shrink-0" style="background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.08);">
+    <h2 id="lb-title" class="text-2xl" style="font-family:'Sugo Pro',sans-serif;font-weight:300;color:#00386f;"></h2>
     <div class="flex items-center gap-4">
-      <span id="lb-counter" class="text-white/60 text-sm"></span>
-      <button onclick="closeLightbox()" class="text-white/70 hover:text-white text-4xl leading-none">&times;</button>
+      <span id="lb-counter" class="text-sm" style="color:#6B9FD4;"></span>
+      <button onclick="closeLightbox()" class="text-4xl leading-none" style="color:#00386f;opacity:0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
     </div>
   </div>
 
