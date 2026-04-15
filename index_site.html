@@ -392,7 +392,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
   const msg = document.getElementById('form-msg');
   btn.disabled = true;
   btn.textContent = 'Enviando...';
-  emailjs.sendForm('service_0lcepw8', 'rmcrh3q', this)
+  emailjs.sendForm('service_0lcepw8', 'template_hcq2e8s', this)
     .then(() => {
       msg.className = 'text-sm font-medium py-3 px-4 rounded-md bg-green-100 text-green-800';
       msg.textContent = '¡Consulta enviada! Te contactamos pronto.';
