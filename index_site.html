@@ -361,7 +361,8 @@
 </div>
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Correo Electrónico</label>
-<input name="from_email" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="juan@ejemplo.com" type="email"/>
+<input name="from_email" id="email-input" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="juan@ejemplo.com" type="email" oninput="document.getElementById('email-hidden').value=this.value"/>
+<input type="hidden" name="email" id="email-hidden"/>
 </div>
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Tipo de Proyecto</label>
