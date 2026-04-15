@@ -353,41 +353,66 @@
   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3109.952882805977!2d-62.11554152320779!3d-38.787714490328334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95ed9f0024d8159b%3A0x10dad2e60a38986a!2sAC%20TuCasa!5e0!3m2!1ses!2sar!4v1776125299251!5m2!1ses!2sar" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 </div>
-<form class="space-y-6">
+<form id="contact-form" class="space-y-6">
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Nombre Completo</label>
-<input class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="Juan Pérez" type="text"/>
+<input name="from_name" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="Juan Pérez" type="text"/>
 </div>
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Número de Teléfono</label>
-<input class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="+54 9 2932 000000" type="tel"/>
+<input name="phone" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="+54 9 2932 000000" type="tel"/>
 </div>
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Correo Electrónico</label>
-<input class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="juan@ejemplo.com" type="email"/>
+<input name="from_email" required class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm" placeholder="juan@ejemplo.com" type="email"/>
 </div>
 <div>
 <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-primary">Tipo de Proyecto</label>
-<select id="tipo-proyecto" onchange="toggleOtro(this.value)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm text-on-surface-variant appearance-none cursor-pointer">
+<select name="project_type" id="tipo-proyecto" onchange="toggleOtro(this.value)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm text-on-surface-variant appearance-none cursor-pointer">
   <option value="" disabled selected>Seleccioná una opción</option>
-  <option value="estructura">Estructura de hierro</option>
-  <option value="obra">Obra in situ</option>
-  <option value="modulo">Módulo</option>
-  <option value="otro">Otro</option>
+  <option value="Estructura de hierro">Estructura de hierro</option>
+  <option value="Obra in situ">Obra in situ</option>
+  <option value="Módulo">Módulo</option>
+  <option value="Otro">Otro</option>
 </select>
 <div id="otro-field" class="mt-3 hidden">
-  <input type="text" maxlength="20" placeholder="Describí tu proyecto (máx. 20 caracteres)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm"/>
+  <input name="other_project" type="text" maxlength="20" placeholder="Describí tu proyecto (máx. 20 caracteres)" class="w-full bg-surface-container-high border-none focus:ring-0 focus:border-b-2 focus:border-primary transition-colors duration-200 p-4 rounded-sm"/>
 </div>
 </div>
-<script>
-function toggleOtro(val) {
-  document.getElementById('otro-field').classList.toggle('hidden', val !== 'otro');
-}
-</script>
-<button class="w-full bg-primary text-on-primary py-5 rounded-md font-headline font-bold text-lg hover:bg-primary-container transition-colors shadow-lg">
-                        Enviar Consulta
-                    </button>
+<div id="form-msg" class="hidden text-sm font-medium py-3 px-4 rounded-md"></div>
+<button type="submit" id="submit-btn" class="w-full bg-primary text-on-primary py-5 rounded-md font-headline font-bold text-lg hover:bg-primary-container transition-colors shadow-lg">Enviar Consulta</button>
 </form>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init('l7A4T1Yo1E8euNiXM');
+function toggleOtro(val) {
+  document.getElementById('otro-field').classList.toggle('hidden', val !== 'Otro');
+}
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const msg = document.getElementById('form-msg');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  emailjs.sendForm('service_0lcepw8', 'rmcrh3q', this)
+    .then(() => {
+      msg.className = 'text-sm font-medium py-3 px-4 rounded-md bg-green-100 text-green-800';
+      msg.textContent = '¡Consulta enviada! Te contactamos pronto.';
+      msg.classList.remove('hidden');
+      this.reset();
+      document.getElementById('otro-field').classList.add('hidden');
+      btn.textContent = 'Enviar Consulta';
+      btn.disabled = false;
+    })
+    .catch(() => {
+      msg.className = 'text-sm font-medium py-3 px-4 rounded-md bg-red-100 text-red-800';
+      msg.textContent = 'Error al enviar. Escribinos a ac-tucasa@hotmail.com';
+      msg.classList.remove('hidden');
+      btn.textContent = 'Enviar Consulta';
+      btn.disabled = false;
+    });
+});
+</script>
 </div>
 </section>
 </main>
