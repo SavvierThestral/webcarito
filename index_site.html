@@ -119,13 +119,12 @@
 <!-- TopAppBar -->
 <nav class="fixed top-0 w-full z-50 glass-nav">
 <div class="max-w-screen-2xl mx-auto px-8 py-0 flex justify-between items-center">
-<div class="h-20 w-20 rounded-full overflow-hidden flex-shrink-0"><img alt="AC TuCasa" class="w-full h-full object-contain" src="tu-casa-logo.webp"/></div>
-<div class="hidden md:flex items-center gap-10 font-headline font-medium tracking-tight">
-<a class="text-white border-b-2 border-white pb-1" href="#">Inicio</a>
+<a href="index_site.html"><div class="h-20 w-20 overflow-hidden flex-shrink-0" style="border-radius:9999px;"><img alt="AC TuCasa" class="w-full h-full object-contain" src="tu-casa-logo.webp"/></div></a>
+<div class="hidden md:flex items-center gap-10" style="font-family:'coolvetica',sans-serif;font-weight:500;">
+<a class="text-white border-b-2 border-white pb-1" href="index_site.html">Inicio</a>
 <a class="text-white/80 hover:text-white transition-colors" href="proyectos.html">Proyectos</a>
-<a class="text-white/80 hover:text-white transition-colors" href="#">Proceso</a>
-<a class="text-white/80 hover:text-white transition-colors" href="#">Nosotros</a>
-<a class="text-white/80 hover:text-white transition-colors" href="#">Contacto</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#proceso">Proceso</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#contacto">Contacto</a>
 </div>
 <button class="px-6 py-2.5 rounded-md font-headline font-semibold text-sm hover:scale-102 transition-transform duration-200" style="background-color:#d5e3fc;color:#00386f;">
                 Cotizar
@@ -259,7 +258,7 @@
 </div>
 </section>
 <!-- Proceso Section -->
-<section class="py-10 px-8 bg-surface-container-low">
+<section id="proceso" class="py-10 px-8 bg-surface-container-low">
 <div class="max-w-screen-2xl mx-auto">
 <!-- Label -->
 <div class="flex items-center gap-3 mb-6">
@@ -330,7 +329,7 @@
 <div class="absolute top-0 right-0 w-1/3 h-full bg-surface-tint opacity-10 -skew-x-12 transform translate-x-24"></div>
 </section>
 <!-- Contact Section -->
-<section class="py-10 px-8 max-w-screen-2xl mx-auto">
+<section id="contacto" class="py-10 px-8 max-w-screen-2xl mx-auto">
 <div class="bg-surface-container-low rounded-xl p-12 md:p-24 grid md:grid-cols-2 gap-16 items-start">
 <div>
 <h2 class="text-5xl font-bold text-primary mb-6 tracking-tighter">¿listo para construir?</h2>
